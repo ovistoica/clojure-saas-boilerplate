@@ -17,3 +17,11 @@
 
 (def app (-> state/system :designvote/app))
 (def db (-> state/system :db/postgres))
+
+
+
+(comment
+
+  (io/file "resources")
+
+  )

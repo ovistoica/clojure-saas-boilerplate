@@ -1,4 +1,6 @@
 {:webserver/port #or [#env PORT 8080]
  :server/jetty {:port #ig/ref :webserver/port
                 :handler #ig/ref :saas/handler}
- :saas/handler {}}
+ :saas/handler {}
+ :db/migrations {:migration-dir "migrations/"
+                 :migrations-table "migrations"}}

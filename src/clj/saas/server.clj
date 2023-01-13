@@ -8,18 +8,7 @@
   (:import
     (org.eclipse.jetty.server Server)))
 
-(defmethod aero.core/reader 'ig/ref
-  [{:keys [profile] :as opts} tag value]
-  (ig/ref value))
 
-(defn config
-  []
-  (a/read-config (io/resource "config.edn")))
-
-
-(defn webserver-port
-  []
-  (Long/parseLong (str (get (config) :webserver/port))))
 
 (defn app
   [config]
@@ -32,7 +21,10 @@
 
 (defmethod ig/init-key :webserver/port
   [_ config]
-  (println "\nConfigured port")
+  config)
+
+(defmethod ig/init-key :db/migrations
+  [_ config]
   config)
 
 (defmethod ig/init-key :saas/handler
