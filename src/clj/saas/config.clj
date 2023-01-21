@@ -20,3 +20,7 @@
 (defn migrations-config
   []
   (get (config) :db/migrations))
+
+(defmethod ig/init-key :saas/secrets
+  [_ config]
+  config)

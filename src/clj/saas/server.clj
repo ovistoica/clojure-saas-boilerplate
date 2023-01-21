@@ -4,7 +4,9 @@
     [clojure.java.io :as io]
     [ring.adapter.jetty :as jetty]
     [integrant.core :as ig]
-    [saas.router :as router])
+    [next.jdbc.connection :as conn]
+    [saas.router :as router]
+    [saas.config :as c])
   (:import
     (org.eclipse.jetty.server Server)))
 
@@ -13,6 +15,7 @@
 (defn app
   [config]
   (router/routes config))
+
 
 (defmethod ig/init-key :server/jetty
   [_ {:keys [handler port]}]
@@ -39,6 +42,6 @@
 
 (defn -main
   []
-  (let [config (config)]
+  (let [config (dissoc (c/config) :saas/secrets)]
     (-> config ig/prep ig/init)))
 

@@ -1,6 +1,9 @@
-{:webserver/port #or [#env PORT 8080]
+{:saas/secrets #include #join [#env HOME "/.saas-secrets.edn"]
+ :webserver/port #or [#env PORT 8080]
  :server/jetty {:port #ig/ref :webserver/port
                 :handler #ig/ref :saas/handler}
- :saas/handler {}
+ :auth/cognito #ref [:saas/secrets :cognito]
+ :saas/handler {:cognito #ig/ref :auth/cognito}
+ :saas/db #ref [:saas/secrets :db]
  :db/migrations {:migration-dir "migrations/"
                  :migrations-table "migrations"}}

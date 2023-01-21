@@ -4,7 +4,8 @@
   org.clojure/clojurescript {:mvn/version "1.11.60"}
   integrant/integrant {:mvn/version "0.8.0"}
   aero/aero {:mvn/version "1.1.6"}
-  thheller/shadow-cljs {:mvn/version "2.20.19"}}
+  thheller/shadow-cljs {:mvn/version "2.20.19"}
+  ch.qos.logback/logback-classic {:mvn/version "1.4.5"}}
 
  :aliases
  {:dev
@@ -18,10 +19,18 @@
   {:extra-deps
    {metosin/reitit {:mvn/version "0.5.18"}
     seancorfield/next.jdbc {:mvn/version "1.2.659"}
+    org.postgresql/postgresql {:mvn/version "42.5.1"}
     ring/ring-jetty-adapter {:mvn/version "1.9.3"}
     ring-cors/ring-cors {:mvn/version "0.1.13"}
     ring/ring {:mvn/version "1.9.5"}
-    hikari-cp/hikari-cp {:mvn/version "3.0.1"}}}
+    hikari-cp/hikari-cp {:mvn/version "3.0.1"}
+    com.auth0/java-jwt {:mvn/version "4.2.1"}
+    com.auth0/jwks-rsa {:mvn/version "0.21.2"}
+    com.cognitect.aws/api {:mvn/version "0.8.635"}
+    com.cognitect.aws/endpoints {:mvn/version "1.1.12.381"}
+    com.cognitect.aws/cognito-idp
+    {:mvn/version "825.2.1250.0"
+     :aws/serviceFullName "Amazon Cognito Identity Provider"}}}
 
   :frontend
   {:extra-deps

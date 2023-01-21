@@ -1,11 +1,13 @@
 (ns user
-  (:require [integrant.repl :as ig-repl]
-            [integrant.core :as ig]
-            [integrant.repl.state :as state]
-            [saas.server :refer [config]]
-            [clojure.java.io :as io]
-            [ring.mock.request :as mock]
-            [muuntaja.core :as m]))
+  (:require
+    [clojure.java.io :as io]
+    [integrant.core :as ig]
+    [integrant.repl :as ig-repl]
+    [integrant.repl.state :as state]
+    [ring.mock.request :as mock]
+    [muuntaja.core :as m]
+    [saas.auth :as auth]
+    [saas.config :refer [config]]))
 
 
 (ig-repl/set-prep! config)
@@ -15,13 +17,16 @@
 (def reset ig-repl/reset)
 (def reset-all ig-repl/reset-all)
 
-(def app (-> state/system :designvote/app))
-(def db (-> state/system :db/postgres))
+(defn app [] (-> state/system :designvote/app))
+(defn db [] (-> state/system :db/postgres))
+(defn auth [] (-> state/system :auth/cognito))
 
 
 
 (comment
 
   (io/file "resources")
+
+  (auth/create-cognito-account (auth) {:email "thisistest@example.com" :password "Pa$$w0rd"})
 
   )
