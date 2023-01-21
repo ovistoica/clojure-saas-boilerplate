@@ -1,10 +1,7 @@
 (ns saas.server
   (:require
-    [aero.core :as a]
-    [clojure.java.io :as io]
     [ring.adapter.jetty :as jetty]
     [integrant.core :as ig]
-    [next.jdbc.connection :as conn]
     [saas.router :as router]
     [saas.config :as c])
   (:import

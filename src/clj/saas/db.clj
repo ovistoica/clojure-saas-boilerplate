@@ -3,7 +3,6 @@
   (:require [hikari-cp.core :as hik]
             [integrant.core :as ig]
             [next.jdbc.connection :as conn]
-            [clojure.pprint :as pprint]
             [next.jdbc :as jdbc]
             [saas.config :as c]))
 

@@ -5,7 +5,7 @@
     [aero.core :as a]))
 
 (defmethod aero.core/reader 'ig/ref
-  [{:keys [profile] :as opts} tag value]
+  [_ _ value]
   (ig/ref value))
 
 (defn config
