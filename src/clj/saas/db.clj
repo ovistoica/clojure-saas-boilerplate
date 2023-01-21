@@ -29,7 +29,7 @@
 
 (defmethod ig/halt-key! :saas/db
   [_ config]
-  (hik/close-datasource config))
+  (hik/close-datasource (:connectable config)))
 
 
 
