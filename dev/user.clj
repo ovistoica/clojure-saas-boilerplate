@@ -9,6 +9,7 @@
     [saas.auth :as auth]
     [migratus.core :as mi]
     [saas.config :refer [config]]
+    [saas.router :as router]
     [saas.db :as db]))
 
 
@@ -26,7 +27,16 @@
 
 
 
+
 (comment
+
+
+  ((app) {:request-method :post :uri "/v1/account/sign-up"})
+
+  (router/routes (app))
+
+
+  (db/db-initiated? (merge (migration-config) {:db (db)}))
 
   (io/file "resources")
 

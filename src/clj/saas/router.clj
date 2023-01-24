@@ -4,6 +4,7 @@
             [reitit.swagger-ui :as swagger-ui]
             [ring.util.response :as rr]
             [muuntaja.core :as m]
+            [reitit.coercion.malli :as coercion-malli]
             [reitit.ring.middleware.muuntaja :as muuntaja]
             [reitit.ring.middleware.parameters :as parameters]
             [reitit.ring.middleware.multipart :as multipart]
@@ -14,7 +15,8 @@
             [reitit.ring.middleware.dev :as dev]
             [ring.middleware.cors :as cors]
             [reitit.exception :as r-exception]
-            [saas.middleware :as mw]))
+            [saas.middleware :as mw]
+            [saas.routes :as s-routes]))
 
 
 
@@ -34,7 +36,7 @@
    :exception pretty/exception
    :conflicts (fn [conflicts]
                 (println (r-exception/format-exception :path-conflicts nil conflicts)))
-   :data {:coercion coercion-spec/coercion
+   :data {:coercion coercion-malli/coercion
           :muuntaja m/instance
           :middleware [;; swagger feature
                        swagger/swagger-feature
@@ -62,26 +64,13 @@
   (cors/wrap-cors handler :access-control-allow-origin [#".*"]
                   :access-control-allow-methods [:get :put :post :delete]))
 
-(defn hello-handler
-  [_]
-  (rr/response {:message "Hello"}))
-
-(defn default-routes
-  []
-  ["/hello" {:swagger {:tags ["hello"]}}
-   [""
-    {:get {:handler hello-handler
-           :parameters {}
-           :responses {200 {:body {:message string?}}}
-           :summary "Call this to get a hello back"}}]])
-
 (defn routes
   [config]
   (ring/ring-handler
     (ring/router
       [swagger-docs
        ["/v1"
-        (default-routes)]]
+        (saas.routes/saas-routes config)]]
       router-config)
     (ring/routes
       (swagger-ui/create-swagger-ui-handler {:path "/"})

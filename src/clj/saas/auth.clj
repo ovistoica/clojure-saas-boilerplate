@@ -80,8 +80,8 @@
                                                      :client-secret client-secret
                                                      :username email})}})]
     (when-anomaly-throw result)
-    {:account/account-id (:UserSub result)
-     :account/display-name email}))
+    {:uid (:UserSub result)
+     :email email}))
 
 (defn confirm-cognito-account
   [{:keys [config cognito-idp]} {:keys [confirmation-code email]}]

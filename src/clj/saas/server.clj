@@ -13,7 +13,6 @@
   [config]
   (router/routes config))
 
-
 (defmethod ig/init-key :server/jetty
   [_ {:keys [handler port]}]
   (println (str "\nServer running on port " port))
