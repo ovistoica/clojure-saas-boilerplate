@@ -5,6 +5,4 @@
   [auth]
   (fn [req]
     (let [params (-> req :parameters :body)
-          result (auth/create-cognito-account auth params)]
-      )
-    ))
+          result (auth/create-cognito-account auth params)])))

@@ -2,8 +2,14 @@
  :webserver/port #or [#env PORT 8080]
  :server/jetty {:port #ig/ref :webserver/port
                 :handler #ig/ref :saas/handler}
+ :saas/handler {:cognito #ig/ref :auth/cognito
+                :db #ig/ref :saas/db
+                :migrator #ig/ref :saas/migrator}
  :auth/cognito #ref [:saas/secrets :cognito]
- :saas/handler {:cognito #ig/ref :auth/cognito}
  :saas/db #ref [:saas/secrets :db]
- :db/migrations {:migration-dir "migrations/"
-                 :migrations-table "migrations"}}
+ :saas/migrator {:db #ig/ref :saas/db
+                 :store :database
+                 :migration-dir "migrations/"
+                 :migration-table-name "migrations"
+                 :init-in-transaction? true
+                 :init-script "init.sql"}}

@@ -7,7 +7,9 @@
     [ring.mock.request :as mock]
     [muuntaja.core :as m]
     [saas.auth :as auth]
-    [saas.config :refer [config]]))
+    [migratus.core :as mi]
+    [saas.config :refer [config]]
+    [saas.db :as db]))
 
 
 (ig-repl/set-prep! config)
@@ -17,8 +19,9 @@
 (def reset ig-repl/reset)
 (def reset-all ig-repl/reset-all)
 
-(defn app [] (-> state/system :designvote/app))
-(defn db [] (-> state/system :db/postgres))
+(defn app [] (-> state/system :saas/handler))
+(defn db [] (-> state/system :saas/db))
+(defn migration-config [] (-> state/system :saas/migrator))
 (defn auth [] (-> state/system :auth/cognito))
 
 

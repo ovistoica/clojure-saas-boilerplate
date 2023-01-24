@@ -30,7 +30,8 @@
     com.cognitect.aws/endpoints {:mvn/version "1.1.12.381"}
     com.cognitect.aws/cognito-idp
     {:mvn/version "825.2.1250.0"
-     :aws/serviceFullName "Amazon Cognito Identity Provider"}}}
+     :aws/serviceFullName "Amazon Cognito Identity Provider"}
+    migratus/migratus {:mvn/version "1.4.3"}}}
 
   :frontend
   {:extra-deps

@@ -93,7 +93,6 @@
   (fn [mig-type migration-name]
     mig-type))
 
-
 (defmethod migration-files* :default
   [mig-type migration-name]
   (throw (Exception. (format "Unknown migration type '%s'"
