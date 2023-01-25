@@ -4,8 +4,8 @@
 
 (defn insert-account!
   "Insert an account into the database."
-  [db {:keys [email password first-name last-name]}]
-  (sql/insert! db :accounts {:email email
-                             :password password
+  [db {:keys [email first-name last-name uid] :as _account}]
+  (sql/insert! db :account {:uid uid
+                             :email email
                              :first_name first-name
                              :last_name last-name}))

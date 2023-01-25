@@ -13,12 +13,13 @@
    :extra-deps
    {devcards/devcards {:mvn/version "0.2.7"}
     integrant/repl {:mvn/version "0.3.2"}
-    ring-mock/ring-mock {:mvn/version "0.1.5"}}}
+    ring/ring-mock {:mvn/version "0.4.0"}}}
 
   :backend
   {:extra-deps
    {metosin/reitit {:mvn/version "0.5.18"}
     seancorfield/next.jdbc {:mvn/version "1.2.659"}
+    com.github.seancorfield/honeysql {:mvn/version "2.4.969"}
     org.postgresql/postgresql {:mvn/version "42.5.1"}
     ring/ring-jetty-adapter {:mvn/version "1.9.3"}
     ring-cors/ring-cors {:mvn/version "0.1.13"}
@@ -32,6 +33,13 @@
     {:mvn/version "825.2.1250.0"
      :aws/serviceFullName "Amazon Cognito Identity Provider"}
     migratus/migratus {:mvn/version "1.4.3"}}}
+  :test
+  {:extra-paths ["test/clj"]
+   :extra-deps
+   {integrant/repl {:mvn/version "0.3.2"}
+    ring/ring-mock {:mvn/version "0.4.0"}
+
+    }}
 
   :frontend
   {:extra-deps

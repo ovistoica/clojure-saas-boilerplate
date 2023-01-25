@@ -1,12 +1,29 @@
 (ns saas.routes
-  (:require [saas.account :as account]
+  (:require [saas.account.handlers :as account]
+            [saas.middleware :as mw]
             [saas.schema :as s]))
 
 (defn saas-routes
-  [system]
-  ["/account" {:swagger {:tags ["account"]}}
+  [{:keys [auth] :as system}]
+  ["/account" {:swagger {:tags ["account"]}
+               :middleware [[mw/wrap-snake->kebab->snake]]}
    ["/sign-up" {:post {:summary "Create an account using cognito"
                        :description "Create an account using cognito"
                        :handler (account/sign-up! system)
                        :responses {201 {:body s/account-response}}
-                       :parameters {:body s/create-account-request}}}]])
+                       :parameters {:body s/create-account-request}}}]
+   ["/confirm" {:post {:summary "Confirm your account"
+                       :description "Confirm an account by using the access code
+                       that was provided through email"
+                       :handler (account/confirm-account auth)
+                       :responses {204 {:body nil}}
+                       :parameters {:body s/confirm-account-request-body}}}]
+   ["/log-in" {:post {:summary "Log in to your account"
+                      :description "Log in using your email and password"
+                      :handler (account/log-in auth)
+                      :responses {200 {:body s/log-in-response}}
+                      :parameters {:body s/log-in-request-body}}}]
+   ["/refresh" {:post {:summary "Refresh token"
+                       :description "Refresh your token using the `refresh_token`
+                       provided at log-in"
+                       :handler (account/refresh-token auth)}}]])

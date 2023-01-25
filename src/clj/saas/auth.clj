@@ -1,6 +1,7 @@
 (ns saas.auth
   (:require
     [clojure.data.json :as json]
+    [clojure.string :as string]
     [cognitect.aws.client.api :as aws]
     [integrant.core :as ig])
   (:import (com.auth0.jwk GuavaCachedJwkProvider UrlJwkProvider)

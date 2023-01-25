@@ -12,7 +12,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/clj" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/cljc" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/cljs" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/test" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/test/clj" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/.clj-kondo/.cache" />
       <excludeFolder url="file://$MODULE_DIR$/.idea/libraries" />
       <excludeFolder url="file://$MODULE_DIR$/logs" />
@@ -60,6 +60,7 @@
     <orderEntry type="library" name="Deps: cljsjs/react-dom:16.9.0-0" level="project" />
     <orderEntry type="library" name="Deps: lambdaisland/deep-diff:0.0-47" level="project" />
     <orderEntry type="library" name="Deps: ring-cors:0.1.13" level="project" />
+    <orderEntry type="library" name="Deps: com.fasterxml.jackson.dataformat/jackson-dataformat-cbor:2.9.6" level="project" />
     <orderEntry type="library" name="Deps: com.googlecode.json-simple/json-simple:1.1.1" level="project" />
     <orderEntry type="library" name="Deps: org.jspecify/jspecify:0.2.0" level="project" />
     <orderEntry type="library" name="Deps: sablono:0.8.6" level="project" />
@@ -68,13 +69,13 @@
     <orderEntry type="library" name="Deps: thheller/shadow-cljs:2.20.19" level="project" />
     <orderEntry type="library" name="Deps: ch.qos.logback/logback-core:1.4.5" level="project" />
     <orderEntry type="library" name="Deps: org.clojure/clojurescript:1.11.60" level="project" />
-    <orderEntry type="library" name="Deps: ring-mock:0.1.5" level="project" />
     <orderEntry type="library" name="Deps: ring/ring-jetty-adapter:1.9.3" level="project" />
     <orderEntry type="library" name="Deps: cljs-bean:1.4.0" level="project" />
     <orderEntry type="library" name="Deps: commons-io:2.11.0" level="project" />
     <orderEntry type="library" name="Deps: com.google.guava/listenablefuture:9999.0-empty-to-avoid-conflict-with-guava" level="project" />
     <orderEntry type="library" name="Deps: org.postgresql/postgresql:42.5.1" level="project" />
     <orderEntry type="library" name="Deps: org.clojure/tools.namespace:1.0.0" level="project" />
+    <orderEntry type="library" name="Deps: com.github.seancorfield/honeysql:2.4.969" level="project" />
     <orderEntry type="library" name="Deps: fipp:0.6.26" level="project" />
     <orderEntry type="library" name="Deps: org.jboss.logging/jboss-logging:3.4.1.Final" level="project" />
     <orderEntry type="library" name="Deps: metosin/reitit-swagger:0.5.18" level="project" />
@@ -133,6 +134,8 @@
     <orderEntry type="library" name="Deps: org.checkerframework/checker-qual:3.12.0" level="project" />
     <orderEntry type="library" name="Deps: org.wildfly.client/wildfly-client-config:1.0.1.Final" level="project" />
     <orderEntry type="library" name="Deps: net.java.dev.jna/jna:5.12.1" level="project" />
+    <orderEntry type="library" name="Deps: cheshire:5.8.1" level="project" />
+    <orderEntry type="library" name="Deps: tigris:0.1.1" level="project" />
     <orderEntry type="library" name="Deps: org.eclipse.jetty/jetty-client:9.4.48.v20220622" level="project" />
     <orderEntry type="library" name="Deps: metosin/reitit-sieppari:0.5.18" level="project" />
     <orderEntry type="library" name="Deps: org.eclipse.jetty/jetty-io:9.4.48.v20220622" level="project" />
@@ -162,6 +165,7 @@
     <orderEntry type="library" name="Deps: cljsjs/create-react-class:15.6.3-1" level="project" />
     <orderEntry type="library" name="Deps: cider/piggieback:0.5.3" level="project" />
     <orderEntry type="library" name="Deps: org.clojure/java.data:1.0.95" level="project" />
+    <orderEntry type="library" name="Deps: ring/ring-mock:0.4.0" level="project" />
     <orderEntry type="library" name="Deps: thheller/shadow-undertow:0.3.1" level="project" />
     <orderEntry type="library" name="Deps: com.auth0/jwks-rsa:0.21.2" level="project" />
     <orderEntry type="library" name="Deps: org.eclipse.jetty/jetty-server:9.4.40.v20210413" level="project" />
@@ -171,6 +175,7 @@
     <orderEntry type="library" name="Deps: org.clojure/core.cache:1.0.225" level="project" />
     <orderEntry type="library" name="Deps: meta-merge:1.0.0" level="project" />
     <orderEntry type="library" name="Deps: org.clojure/core.async:1.6.673" level="project" />
+    <orderEntry type="library" name="Deps: com.fasterxml.jackson.dataformat/jackson-dataformat-smile:2.9.6" level="project" />
     <orderEntry type="library" name="Deps: com.fasterxml.jackson.datatype/jackson-datatype-jsr310:2.13.0" level="project" />
     <orderEntry type="library" name="Deps: javax.xml.bind/jaxb-api:2.3.0" level="project" />
     <orderEntry type="library" name="Deps: metosin/sieppari:0.0.0-alpha13" level="project" />
