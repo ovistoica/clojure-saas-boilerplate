@@ -35,17 +35,18 @@
                       :size :md
                       :focus :true}})
 
+
 (defn variants->style-props
   "Transform component variants map declaration into
   a map showing possible props"
   [cv]
   (let [prop-keys (keys (dissoc cv :default-variants :base-style))]
     (-> (reduce (fn [acc pk]
-               (let [variants (-> (get cv pk)
-                                  (keys))]
-                 (assoc acc pk (vec variants))))
-             {}
-             prop-keys)
+                  (let [variants (-> (get cv pk)
+                                     (keys))]
+                    (assoc acc pk (vec variants))))
+                {}
+                prop-keys)
         (assoc :_defaults (:default-variants cv)))))
 
 (defn button
