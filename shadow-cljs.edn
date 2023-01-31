@@ -1,0 +1,32 @@
+{:deps {:aliases [:frontend :devcards]}
+
+ :dev-http {8081 "resources/public"
+            6062 ["out/devcards" "resources/public/assets/css"]},
+
+ :nrepl {:port 7002}
+
+ :builds
+ {;; Main client build
+  :app
+  {:target :browser
+   :modules {:main {:init-fn saas.core/init}}
+   :devtools {:preloads []}
+   :dev {:compiler-options {:closure-defines {}}}
+   :output-dir "resources/public/assets/js"
+   :asset-path "/assets/js"}
+
+  :devcards
+  {;; using :browser-test to pick up all files that match `-test$`
+   :target :browser-test
+   ;; default option for :browser-test is -test$
+   :ns-regexp "-cards$"
+   :test-dir "out/devcards"
+   ;; must have init fn to run
+   :runner-ns saas.devcards
+   :compiler-options {:devcards true
+                      :output-feature-set :es8}
+   :js-options {:resolve
+                {"devcards-marked"
+                 {:target :npm :require "marked"}
+                 "devcards-syntax-highlighter"
+                 {:target :npm :require "highlight.js"}}}}}}

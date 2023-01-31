@@ -14,6 +14,9 @@ pom.xml.asc
 .cpcache/
 .clj-kondo/.cache
 .lsp/
+.shadow-cljs/
+node_modules/
+resources/public/assets/js/
 
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
@@ -67,7 +70,7 @@ cmake-build-*/
 *.iws
 
 # IntelliJ
-out/
+out/js
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
@@ -95,3 +98,10 @@ fabric.properties
 
 # Logback
 logs
+
+
+# CSS
+resources/public/assets/css
+
+# Devcards
+out/devcards/js

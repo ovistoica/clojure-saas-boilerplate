@@ -1,0 +1,346 @@
+body .hljs {
+  @apply p-0 bg-transparent;
+}
+
+#com-rigsomelight-devcards-main {
+  @apply pb-40;
+}
+
+.com-rigsomelight-devcards_rendered-card {
+  @apply relative;
+}
+
+.com-rigsomelight-devcards-body {
+  @apply bg-slate-50;
+}
+
+.com-rigsomelight-devcards-markdown pre,
+.com-rigsomelight-devcards-test-line.com-rigsomelight-devcards-test-doc,
+.com-rigsomelight-devcards-markdown,
+pre {
+  @apply block text-xs break-normal overflow-x-scroll bg-slate-50 -ml-3 -mr-3;
+}
+
+.com-rigsomelight-devcards-test-line.com-rigsomelight-devcards-test-doc,
+.com-rigsomelight-devcards-markdown,
+pre {
+  @apply -mx-5;
+}
+
+/* frameless style for markdown */
+.com-rigsomelight-devcards-framelesss .com-rigsomelight-devcards-markdown {
+  @apply pt-4 px-4;
+}
+
+/* end fremless markdown style */
+
+.com-rigsomelight-devcards-padding-top-border {
+  @apply mt-4 pt-4;
+}
+
+.com-rigsomelight-devcards-markdown code {
+  @apply text-pink-800 bg-slate-50 whitespace-nowrap rounded py-2 px-4;
+}
+
+.com-rigsomelight-devcards-markdown pre code {
+  @apply p-0 whitespace-pre bg-transparent rounded-none;
+}
+
+.com-rigsomelight-devcards-base,
+.com-rigsomelight-devcards-markdown {
+}
+
+.com-rigsomelight-devcards-typog {
+}
+
+.com-rigsomelight-devcards-typog h1,
+.com-rigsomelight-devcards-typog h2,
+.com-rigsomelight-devcards-typog h3,
+.com-rigsomelight-devcards-typog h4,
+.com-rigsomelight-devcards-typog h5,
+.com-rigsomelight-devcards-markdown h1,
+.com-rigsomelight-devcards-markdown h2,
+.com-rigsomelight-devcards-markdown h3,
+.com-rigsomelight-devcards-markdown h4,
+.com-rigsomelight-devcards-markdown h5 {
+  @apply font-medium;
+}
+
+.com-rigsomelight-devcards-typog a {
+  @apply text-blue-400 no-underline;
+}
+
+.com-rigsomelight-devcards-markdown h1:first-child,
+.com-rigsomelight-devcards-markdown h2:first-child,
+.com-rigsomelight-devcards-markdown h3:first-child,
+.com-rigsomelight-devcards-markdown h4:first-child,
+.com-rigsomelight-devcards-markdown h5:first-child {
+  @apply mt-2;
+}
+
+.com-rigsomelight-devcards-markdown h1 {
+  @apply text-2xl;
+}
+
+.com-rigsomelight-devcards-markdown h2 {
+  @apply text-xl;
+}
+
+.com-rigsomelight-devcards-markdown h3 {
+  @apply text-lg;
+}
+
+.com-rigsomelight-devcards-markdown h2:first-child,
+.com-rigsomelight-devcards-markdown h3:first-child,
+.com-rigsomelight-devcards-markdown h4:first-child,
+.com-rigsomelight-devcards-markdown h5:first-child {
+  @apply mt-2;
+}
+
+.com-rigsomelight-devcards-markdown code,
+.com-rigsomelight-devcards-markdown kbd,
+.com-rigsomelight-devcards-markdown pre,
+.com-rigsomelight-devcards-markdown samp {
+  font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+.com-rigsomelight-devcards-navbar {
+  @apply bg-indigo-800 border-blue-800 text-white h-12;
+}
+
+.com-rigsomelight-devcards-brand {
+  @apply text-lg block ml-3 leading-10;
+}
+
+.com-rigsomelight-devcards-container {
+  @apply m-auto w-10/12;
+}
+
+.com-rigsomelight-devcards-card-base {
+  @apply bg-white py-4 px-4 mt-10;
+}
+
+.com-rigsomelight-devcards-card-base-no-pad {
+  @apply bg-white border-1 mt-5 border-x-0;
+}
+
+.com-rigsomelight-devcards-card-base-no-pad.com-rigsomelight-devcards-card-hide-border {
+  @apply border-1;
+}
+
+.com-rigsomelight-devcards-breadcrumbs {
+  @apply leading-6 border-none;
+}
+
+.com-rigsomelight-devcards-breadcrumb-sep {
+  @apply inline-block py-0 px-2 text-gray-600;
+}
+
+.com-rigsomelight-devcards-list-group {
+  @apply mt-8;
+}
+
+.com-rigsomelight-devcards-list-group-item {
+  @apply relative text-gray-600 block py-4 px-5 -mb-0.5 border-b-2 border-b-sky-100;
+}
+
+.com-rigsomelight-devcards-badge {
+  @apply inline-block text-xs font-bold text-white leading-none align-baseline whitespace-nowrap text-center min-w-1 bg-slate-400;
+}
+
+button.com-rigsomelight-devcards-badge {
+  @apply border-none py-1 px-5;
+}
+
+.com-rigsomelight-devcards-panel-heading {
+  @apply bg-brand-700 overflow-hidden h-12 flex items-center;
+}
+
+.com-rigsomelight-devcards-panel-heading a {
+  @apply text-slate-100 text-xl pl-4;
+}
+
+.com-rigsomelight-devcards-devcard-padding {
+  @apply mt-4 px-4 pb-4;
+}
+
+.com-rigsomelight-devcards-test-line {
+  @apply relative block pt-3 px-4 border-none border-t-2 border-t-slate-300;
+}
+
+.com-rigsomelight-devcards-test-line.com-rigsomelight-devcards-context {
+  @apply border-x-2 border-x-slate-300 bg-slate-50;
+}
+
+.com-rigsomelight-devcards-test-line pre {
+  @apply m-0 overflow-x-scroll;
+}
+
+.com-rigsomelight-devcards-test-line pre code {
+  @apply text-lg p-0 bg-transparent;
+}
+
+.com-rigsomelight-devcards-pass {
+  @apply text-green-600 border-1 border-green-300 border-l-8;
+}
+
+.com-rigsomelight-devcards-fail,
+.com-rigsomelight-devcards-error {
+  @apply text-red-700 border-1 border-l-red-300;
+}
+
+.com-rigsomelight-devcards-fail {
+  @apply bg-slate-50;
+}
+
+.com-rigsomelight-devcards-error {
+  @apply bg-slate-50;
+}
+
+.com-rigsomelight-devcards-test-message {
+  @apply block my-1;
+}
+
+.com-rigsomelight-devcards-pass .com-rigsomelight-devcards-test-message {
+  @apply text-green-700;
+}
+
+.com-rigsomelight-devcards-fail .com-rigsomelight-devcards-test-message {
+  @apply text-red-700;
+}
+
+.com-rigsomelight-devcards-history-control-small-arrow {
+  @apply inline-block h-0 w-0 border-8 border-l-slate-700 -mr-3;
+}
+
+.com-rigsomelight-devcards-history-control-block {
+  @apply inline-block h-4 w-1 bg-slate-500;
+}
+
+.com-rigsomelight-devcards-history-control-right {
+  @apply inline-block h-0 w-0 border-8 border-l-16 border-l-slate-500 -mr-3;
+}
+
+.com-rigsomelight-devcards-history-control-left {
+  @apply inline-block h-0 w-0 border-8 border-r-16 border-r-slate-500 -ml-3;
+}
+
+.com-rigsomelight-devcards-history-stop {
+  @apply inline-block h-4 w-4 bg-red-300 rounded;
+}
+
+.com-rigsomelight-devcards-history-control-bar {
+  @apply bg-slate-50 py-1 my-4 mx-0 px-4 text-right;
+}
+
+.com-rigsomelight-devcards-history-control-bar button {
+  @apply bg-transparent border-none my-0 mx-1 h-5 py-1 px-7;
+}
+
+.com-rigsomelight-devcards-history-control-bar,
+.com-rigsomelight-devcards-padding-top-border {
+  @apply border-none pt-0;
+}
+
+.com-rigsomelight-devcards-devcard-padding,
+.com-rigsomelight-devcards-history-control-bar {
+  @apply my-5 -mx-8;
+}
+
+@media (min-width: 768px) {
+  .com-rigsomelight-devcards-markdown pre,
+  .com-rigsomelight-devcards-test-line.com-rigsomelight-devcards-test-doc,
+  .com-rigsomelight-devcards-markdown,
+  pre {
+    @apply py-2 px-8 -mx-8;
+  }
+
+  .com-rigsomelight-devcards-brand {
+    @apply ml-0;
+  }
+
+  .com-rigsomelight-devcards-devcard-padding {
+    @apply mx-8;
+  }
+
+  .com-rigsomelight-devcards-card-hide-border,
+  .com-rigsomelight-devcards-devcard-padding {
+    @apply mx-0;
+  }
+
+  .com-rigsomelight-devcards-breadcrumbs {
+    @apply mx-0;
+  }
+
+  .com-rigsomelight-devcards-list-group {
+    @apply mt-8;
+  }
+
+  .com-rigsomelight-devcards-list-group-item {
+    @apply mx-0;
+  }
+
+  .com-rigsomelight-devcards-container {
+    @apply m-auto w-11/12;
+  }
+
+  button.com-rigsomelight-devcards-badge {
+    @apply border-1 border-slate-400 bg-slate-300;
+  }
+
+  .com-rigsomelight-devcards-history-control-bar button {
+    @apply py-1 px-2;
+  }
+
+  .com-rigsomelight-devcards-card-base,
+  .com-rigsomelight-devcards-card-base-no-pad {
+    @apply rounded border-1 border-slate-100 overflow-hidden;
+  }
+
+  .com-rigsomelight-devcards-test-line {
+    @apply py-2 px-8;
+  }
+
+  .com-rigsomelight-devcards-pass {
+    @apply border-l-24 border-l-green-200;
+  }
+
+  .com-rigsomelight-devcards-fail {
+    @apply border-l-24 border-l-red-200;
+  }
+
+  .com-rigsomelight-devcards-error {
+    @apply border-l-24 border-l-red-200;
+  }
+}
+
+@media (min-width: 800px) {
+  .com-rigsomelight-devcards-card-hide-border,
+  .com-rigsomelight-devcards-markdown,
+  pre {
+    @apply border-1 border-slate-100 rounded px-4 mx-0;
+  }
+}
+
+@media (min-width: 1200px) {
+  .com-rigsomelight-devcards-card-hide-border,
+  .com-rigsomelight-devcards-devcard-padding {
+    @apply px-1;
+  }
+
+  .com-rigsomelight-devcards-brand {
+    @apply ml-8;
+  }
+
+  .com-rigsomelight-devcards-list-group-item {
+    @apply mx-8;
+  }
+
+  .com-rigsomelight-devcards-breadcrumbs {
+    @apply my-0 mx-8;
+  }
+
+  .com-rigsomelight-devcards-container {
+    @apply m-auto w-[970px];
+  }
+}

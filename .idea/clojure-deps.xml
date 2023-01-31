@@ -5,6 +5,7 @@
       <set>
         <option value="backend" />
         <option value="dev" />
+        <option value="devcards" />
         <option value="frontend" />
         <option value="ms" />
         <option value="test" />
