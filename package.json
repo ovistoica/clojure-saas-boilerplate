@@ -14,7 +14,7 @@
     "postcss:build": "cross-env TAILWIND_MODE=build postcss resources/css/* --dir resources/public/assets/css --verbose",
     "postcss:watch": "cross-env TAILWIND_MODE=watch postcss resources/css/* --dir resources/public/assets/css --verbose -w",
     "postcss:release": "cross-env NODE_ENV=production postcss resources/css/* --dir resources/public/assets/css --verbose",
-    "dev": "run-p -l shadow:watch postcss:watch",
+    "dev": "run-p -l *:watch",
     "release": "run-s *:release",
     "devcards": "run-p -l devcards:watch postcss:watch"
   },

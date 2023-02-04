@@ -11,6 +11,7 @@ module.exports = {
           './out/devcards/js/cljs-runtime/*_cards.js',
           './resources/css/devcards-tailwind.css',
         ],
+  darkMode: 'class',
   theme: {
     extend: {
       borderWidth: {
@@ -27,16 +28,16 @@ module.exports = {
       colors: {
         // Brand is tailwind cyan
         brand: {
-          50: '#ecfeff',
-          100: '#cffafe',
-          200: '#a5f3fc',
-          300: '#67e8f9',
-          400: '#22d3ee',
-          500: '#06b6d4',
-          600: '#0891b2',
-          700: '#0e7490',
-          800: '#155e75',
-          900: '#164e63',
+          50: '#EBF5FF',
+          100: '#E1EFFE',
+          200: '#C3DDFD',
+          300: '#A4CAFE',
+          400: '#76A9FA',
+          500: '#3F83F8',
+          600: '#1C64F2',
+          700: '#1A56DB',
+          800: '#1E429F',
+          900: '#233876',
         },
       },
     },

@@ -1,12 +1,14 @@
 (ns saas.views
   (:require
-    [re-frame.core :as re-frame]
-    [saas.subs :as subs]
+    [re-frame.core :as rf]
+    [saas.subs]
+    [saas.events :as events]
     [saas.ui :as ui]))
 
 (defn main-panel []
-  (let [name (re-frame/subscribe [::subs/name])]
-    [:div.p-4
-     [:h1 "Hello from " @name]
-     [ui/button {:label "Click me!" :type :secondary}]]))
-
+  [ui/container {:class "bg-red-100"}
+   [ui/button {:label "Click me!"
+               :type :secondary
+               :on-click #(rf/dispatch [::events/toggle-dark-mode])
+               :full-width true
+               :size :xl}]])

@@ -5,3 +5,9 @@
   ::name
   (fn [db]
     (:name db)))
+
+
+(re-frame/reg-sub
+  ::dark-mode?
+  (fn [db]
+    (:dark-mode? db)))

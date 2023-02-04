@@ -25,8 +25,7 @@
   [:div
    [:div {:class "mx-auto flex max-w-3xl flex-col items-center justify-start space-y-4 sm:flex-row sm:items-end sm:justify-around sm:space-y-0"}
     (for [size [:xs :sm :md :lg :xl]]
-      [ui/button {:label "Button text" :size size}]
-      )]
+      [ui/button {:size size} "Label"])]
    ])
 
 (dc/defcard-rg type-secondary
@@ -39,10 +38,56 @@
                 :size size }])\n
         ```
   "
+  [:div
+   [:div {:class "mx-auto mt-2 flex max-w-3xl flex-col items-center justify-start space-y-4 sm:flex-row sm:items-end sm:justify-around sm:space-y-0"}
+    (for [size [:xs :sm :md :lg :xl]]
+      ^{:key (str size)}
+      [ui/button {:type :secondary :size size} "Label"])]
+   ])
 
+(dc/defcard-rg loading-button
+  "## Usage: \n
+
+  ```clojure
+  (for [size [:xs :sm :md :lg :xl]]
+    [ui/button {:label \"Button text\"
+                :size size
+                :loading? true}])\n
+        ```
+  "
   [:div
    [:div {:class "mx-auto flex max-w-3xl flex-col items-center justify-start space-y-4 sm:flex-row sm:items-end sm:justify-around sm:space-y-0"}
     (for [size [:xs :sm :md :lg :xl]]
-      [ui/button {:label "Button text" :type :secondary :size size}]
-      )]
-   ])
+      [ui/button {:size size
+                  :loading? true}])]
+   [:div {:class "mx-auto my-2 flex max-w-3xl flex-col items-center justify-start space-y-4 sm:flex-row sm:items-end sm:justify-around sm:space-y-0"}
+    (for [size [:xs :sm :md :lg :xl]]
+      [ui/button {:type :secondary
+                  :size size
+                  :loading? true}])]])
+
+(dc/defcard-rg disabled-button
+  "## Usage: \n
+
+  ```clojure
+  (for [size [:xs :sm :md :lg :xl]]
+    [ui/button {:size size
+                :disabled? true}])\n
+        ```
+  "
+  [:div
+   [:div {:class "mx-auto flex max-w-3xl flex-col items-center justify-start space-y-4 sm:flex-row sm:items-end sm:justify-around sm:space-y-0"}
+    (for [size [:xs :sm :md :lg :xl]]
+      [ui/button {:size size
+                  :loading? true}])]
+   [:div {:class "mx-auto my-2 flex max-w-3xl flex-col items-center justify-start space-y-4 sm:flex-row sm:items-end sm:justify-around sm:space-y-0"}
+    (for [size [:xs :sm :md :lg :xl]]
+      [ui/button {:type :secondary
+                  :size size
+                  :loading? true}])]])
+
+(dc/defcard-rg btn
+  [:div {:class "mx-auto flex max-w-3xl flex-col items-center justify-start space-y-4 sm:flex-row sm:items-end sm:justify-around sm:space-y-0"}
+   (for [size [:xs :sm :md :lg :xl]]
+     [ui/button {:size size}
+      [:p.font-bold.italic (str "Button " size)]])])
