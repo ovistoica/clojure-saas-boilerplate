@@ -14,7 +14,6 @@
       <sourceFolder url="file://$MODULE_DIR$/src/cljs" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/test/clj" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/test/cljs" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/out" type="java-resource" />
       <excludeFolder url="file://$MODULE_DIR$/logs" />
       <excludeFolder url="file://$MODULE_DIR$/.idea/libraries" />
       <excludeFolder url="file://$MODULE_DIR$/.cpcache" />
@@ -25,7 +24,6 @@
       <excludeFolder url="file://$MODULE_DIR$/.shadow-cljs" />
       <excludeFolder url="file://$MODULE_DIR$/resources/public/assets/css" />
     </content>
-    <content url="file://$MODULE_DIR$/out" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Deps: com.cognitect/transit-java:1.0.362" level="project" />

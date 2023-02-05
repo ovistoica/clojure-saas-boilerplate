@@ -3,8 +3,8 @@
     [reagent.dom :as rdom]
     [re-frame.core :as re-frame]
     [saas.events :as events]
-    [saas.views :as views]
-    [saas.config :as config]))
+    [saas.ui :as ui]
+    [saas.config :as config] ))
 
 
 (defn dev-setup []
@@ -15,7 +15,7 @@
   (re-frame/clear-subscription-cache!)
   (let [root-el (.getElementById js/document "app")]
     (rdom/unmount-component-at-node root-el)
-    (rdom/render [views/main-panel] root-el)))
+    (rdom/render [ui/authentication] root-el)))
 
 (defn init []
   (re-frame/dispatch-sync [::events/initialize-db])

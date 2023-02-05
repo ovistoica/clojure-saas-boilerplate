@@ -2,4 +2,7 @@
 
 (def default-db
   {:name "Ovi Clojure"
-   :dark-mode? false})
+   :dark-mode? false
+   :app {:show-mobile-sidebar? false}
+
+   })

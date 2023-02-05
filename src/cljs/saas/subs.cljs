@@ -1,13 +1,20 @@
 (ns saas.subs
-  (:require [re-frame.core :as re-frame]))
+  (:require [re-frame.core :as rf]))
 
-(re-frame/reg-sub
+(rf/reg-sub
   ::name
   (fn [db]
     (:name db)))
 
 
-(re-frame/reg-sub
+(rf/reg-sub
   ::dark-mode?
   (fn [db]
     (:dark-mode? db)))
+
+
+
+(rf/reg-sub
+  :app/show-mobile-sidebar?
+  (fn [db _]
+    (get-in db [:app :show-mobile-sidebar?])))

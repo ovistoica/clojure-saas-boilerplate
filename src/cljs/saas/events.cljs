@@ -3,14 +3,16 @@
             [goog.dom.classlist :as gc]
             [saas.db :as db]))
 
-
-
 (rf/reg-event-db
   ::initialize-db
   (fn [_ _]
     db/default-db))
 
-(rf/dispatch [::initialize-db])
+(rf/reg-event-db
+  ::toggle-mobile-sidebar
+  (fn [db _]
+    (let [new-state (not (get-in db [:app :show-mobile-sidebar?]))]
+      (assoc-in db [:app :show-mobile-sidebar?] new-state))))
 
 (rf/reg-event-fx
   ::toggle-dark-mode
