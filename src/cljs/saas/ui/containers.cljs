@@ -10,5 +10,4 @@
         children (r/children this)]
     [:div {:class-name (u/clsx "mx-auto w-full h-screen p-4"
                                (or class-name class))}
-     (u/render-children children)]
-    [:div {:class "bg-yellow-200"}]))
+     (u/render-children children)]))
