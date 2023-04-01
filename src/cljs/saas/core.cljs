@@ -17,6 +17,7 @@
     (rdom/unmount-component-at-node root-el)
     (rdom/render [ui/authentication] root-el)))
 
+
 (defn init []
   (re-frame/dispatch-sync [::events/initialize-db])
   (dev-setup)
