@@ -54,13 +54,13 @@ To start a development environment, start a REPL with these aliases `dev,backend
 To connect a frontend repl run 
 
 ```bash
-npx shadow-cljs watch app
+npm run dev
 ```
 
 OR 
 
 ```bash
-npx shadow-cljs watch devcards #for the ui docs components
+npm run devcards # for the UI docs
 ```
 
 Then connect remotely to this REPL on port 70002 and run `(shadow/repl :app)` or :devcards depending on build
