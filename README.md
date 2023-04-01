@@ -25,7 +25,7 @@ SaaS application that is truly production and enterprise ready.
 - [ ] Database backups
 - [ ] Database restores
 - [ ] Database snapshots
-- [ ] Frontend Web Application
+- [x] Frontend Web Application
 - [ ] UI Design System
 - [ ] UI Components
 - [ ] UI Boilerplate pages
@@ -41,16 +41,26 @@ SaaS application that is truly production and enterprise ready.
 
 ### Development
 
-To start a development environment, run:
+#### Backend
+```bash
+cp saas-secrets.example.edn ~/.saas-secrets.edn
+```
 
-    $ make dev
+Populate the secrets with relevant information about you AWS Cognito pool and you local DB
 
-This will start a REPL server on port 7000, and a Shadow CLJS server on port 8020.
+To start a development environment, start a REPL with these aliases `dev,backend,frontend,test`, than call `(user/reset)`
 
-### Production
+#### Frontend
+To connect a frontend repl run 
 
-To start a production environment, run:
+```bash
+npx shadow-cljs watch app
+```
 
-    $ make prod
+OR 
 
-This will start a REPL server on port 7000, and a Shadow CLJS server on port 8020.
+```bash
+npx shadow-cljs watch devcards #for the ui docs components
+```
+
+Then connect remotely to this REPL on port 70002 and run `(shadow/repl :app)` or :devcards depending on build
