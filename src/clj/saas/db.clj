@@ -30,13 +30,13 @@
                     (map :tablename)
                     (set))]
     (= tables (set/intersection
-                tables
-                #{migration-table-name "account"}))))
+               tables
+               #{migration-table-name "account"}))))
 
 ;Initiate the db connection pool
 (defmethod ig/init-key :saas/db
   [_ config]
-  (println "Configuring db")
+  (println "Configuring db \n")
   (-> (config->jdbc-url config)
       (datasource)
       (jdbc/with-options jdbc/unqualified-snake-kebab-opts)))
@@ -50,7 +50,7 @@
 (defmethod ig/init-key :saas/migrator
   [_ config]
   (let [migratus-conf (merge config {:db {:datasource (-> config :db :connectable)}})]
-    (println "Migrating db")
+    (println "Migrating db \n")
     (when-not (db-initiated? config)
       (println "Running init script")
       (migratus/init migratus-conf))

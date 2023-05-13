@@ -8,6 +8,6 @@
   (let [this (r/current-component)
         {:keys [class class-name]} (r/props this)
         children (r/children this)]
-    [:div {:class-name (u/clsx "mx-auto w-full h-screen p-4"
+    [:div {:class (u/clsx "mx-auto w-full h-screen p-4"
                                (or class-name class))}
      (u/render-children children)]))

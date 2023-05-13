@@ -3,8 +3,8 @@
  {org.clojure/clojure {:mvn/version "1.10.3"}
   integrant/integrant {:mvn/version "0.8.0"}
   aero/aero {:mvn/version "1.1.6"}
-  ch.qos.logback/logback-classic {:mvn/version "1.4.5"}}
-
+  ch.qos.logback/logback-classic {:mvn/version "1.4.5"}
+  org.jsoup/jsoup {:mvn/version "1.13.1"}}
  :aliases
  {:dev
   {:extra-paths ["dev"]
@@ -16,6 +16,7 @@
    {metosin/reitit {:mvn/version "0.5.18"}
     seancorfield/next.jdbc {:mvn/version "1.2.659"}
     com.github.seancorfield/honeysql {:mvn/version "2.4.969"}
+    org.clojure/core.async {:mvn/version "1.2.603"}
     org.postgresql/postgresql {:mvn/version "42.5.1"}
     ring/ring-jetty-adapter {:mvn/version "1.9.3"}
     ring-cors/ring-cors {:mvn/version "0.1.13"}
@@ -28,7 +29,11 @@
     com.cognitect.aws/cognito-idp
     {:mvn/version "825.2.1250.0"
      :aws/serviceFullName "Amazon Cognito Identity Provider"}
-    migratus/migratus {:mvn/version "1.4.3"}}}
+    migratus/migratus {:mvn/version "1.4.3"}
+    org.clojure/java.data {:mvn/version "1.0.95"}
+    com.github.oliyh/martian {:mvn/version "0.1.23"}
+    com.github.oliyh/martian-hato {:mvn/version "0.1.23"}
+    com.github.oliyh/martian-clj-http {:mvn/version "0.1.23"}}}
   :frontend
   {:extra-deps
    {reagent/reagent {:mvn/version "1.1.1"}

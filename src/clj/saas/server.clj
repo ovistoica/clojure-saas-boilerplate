@@ -15,7 +15,7 @@
 
 (defmethod ig/init-key :server/jetty
   [_ {:keys [handler port]}]
-  (println (str "\nServer running on port " port))
+  (println (str "Server running on port " port "\n"))
   (jetty/run-jetty handler {:port port :join? false}))
 
 (defmethod ig/init-key :webserver/port
@@ -28,7 +28,7 @@
 
 (defmethod ig/init-key :saas/handler
   [_ config]
-  (println "\nStarted app")
+  (println "Started app \n")
   (app config))
 
 

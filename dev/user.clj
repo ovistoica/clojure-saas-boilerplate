@@ -4,11 +4,9 @@
    [integrant.core :as ig]
    [integrant.repl :as ig-repl]
    [integrant.repl.state :as state]
-   [ring.mock.request :as mock]
    [clojure.data.json :as json]
    [muuntaja.core :as m]
    [saas.auth :as auth]
-   [migratus.core :as mi]
    [saas.config :refer [config]]
    [saas.router :as router]
    [saas.db :as db]))
@@ -21,15 +19,20 @@
 (def reset ig-repl/reset)
 (def reset-all ig-repl/reset-all)
 
+
 (defn app [] (-> state/system :saas/handler))
 (defn db [] (-> state/system :saas/db))
 (defn migration-config [] (-> state/system :saas/migrator))
 (defn auth [] (-> state/system :auth/cognito))
+(defn openai [] (-> state/system :saas/openai))
 
 
 
 
 (comment
+ (openai)
+
+
  (reset)
 
 
@@ -41,6 +44,7 @@
  (db/db-initiated? (merge (migration-config) {:db (db)}))
 
  (io/file "resources")
+ (io/file "resources/openai-openapi.yml")
 
  (auth/create-cognito-account (auth) {:email "thisistest@example.com" :password "Pa$$w0rd"})
 

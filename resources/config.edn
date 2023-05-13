@@ -4,9 +4,11 @@
                 :handler #ig/ref :saas/handler}
  :saas/handler {:auth #ig/ref :auth/cognito
                 :db #ig/ref :saas/db
-                :migrator #ig/ref :saas/migrator}
+                :migrator #ig/ref :saas/migrator
+                :openai #ig/ref :saas/openai}
  :auth/cognito #ref [:saas/secrets :cognito]
  :saas/db #ref [:saas/secrets :db]
+ :saas/openai #ref [:saas/secrets :openai]
  :saas/migrator {:db #ig/ref :saas/db
                  :store :database
                  :migration-dir "migrations/"
