@@ -9,7 +9,7 @@
    [saas.openai.sse :as sse]
    [martian.encoders :as encoders]
    [martian.interceptors :as interceptors]
-   [schema.core :as s]))
+   [schema.core]))
 
 (defn add-headers
   [{:keys [organization api-key]}]
@@ -24,6 +24,7 @@
                            (cond-> headers
                                    (not-empty api-key) (assoc "Authorization" (str "Bearer " api-key))
                                    (not-empty organization) (assoc "OpenAI-Organization" organization))))))})
+
 
 
 

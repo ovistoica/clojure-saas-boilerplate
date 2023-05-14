@@ -1,15 +1,17 @@
 (ns user
   (:require
    [clojure.java.io :as io]
-   [integrant.core :as ig]
    [integrant.repl :as ig-repl]
    [integrant.repl.state :as state]
    [clojure.data.json :as json]
+   [migratus.core :as migratus]
    [muuntaja.core :as m]
    [saas.auth :as auth]
+   [saas.telegram.api.methods :as tbot]
+   [saas.telegram.api.updates :as tbu]
    [saas.config :refer [config]]
    [saas.router :as router]
-   [saas.db :as db]))
+   [saas.db.core :as db]))
 
 
 (ig-repl/set-prep! config)
@@ -25,6 +27,13 @@
 (defn migration-config [] (-> state/system :saas/migrator))
 (defn auth [] (-> state/system :auth/cognito))
 (defn openai [] (-> state/system :saas/openai))
+(defn telegram [] (-> state/system :saas/telegram))
+
+(defn message->text
+  [message]
+  (-> message :message :text))
+
+
 
 
 
@@ -32,6 +41,13 @@
 (comment
  (openai)
 
+ (tbot/get-me (telegram))
+ (tbot/get-up)
+ (tbot/send-message (telegram) {:text "Hello"})
+ (->> (tbu/get-updates (telegram))
+      :result
+      (map message->text)
+      )
 
  (reset)
 
@@ -50,13 +66,4 @@
 
  )
 
-(comment
- (for [l ["ES" "IT" "NL" "EN" "FR" "DE"]]
-   (->> (merge (->> (slurp (str "resources/sqp_locale/lang_" l ".json"))
-                    (m/decode "application/json"))
-               (->> (slurp (str "resources/ra_locale/lang_" l ".json"))
-                    (m/decode "application/json")))
-        (into (sorted-map))
-        (json/write-str)
-        (spit (str "resources/final_locale/lang_" l ".json"))))
- )
+

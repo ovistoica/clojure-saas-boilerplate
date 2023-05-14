@@ -1,4 +1,4 @@
-(ns saas.db
+(ns saas.db.core
   "Namespace dedicated to DB setup and useful sql functions"
   (:require [hikari-cp.core :as hik]
             [integrant.core :as ig]

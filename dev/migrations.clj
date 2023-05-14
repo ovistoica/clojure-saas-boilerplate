@@ -131,4 +131,4 @@
 
 (comment
 
-  (create-migration "user-table" :sql))
+  (create-migration "telegram-updates" :sql))

@@ -5,10 +5,12 @@
  :saas/handler {:auth #ig/ref :auth/cognito
                 :db #ig/ref :saas/db
                 :migrator #ig/ref :saas/migrator
-                :openai #ig/ref :saas/openai}
+                :openai #ig/ref :saas/openai
+                :telegram #ig/ref :saas/telegram}
  :auth/cognito #ref [:saas/secrets :cognito]
  :saas/db #ref [:saas/secrets :db]
  :saas/openai #ref [:saas/secrets :openai]
+ :saas/telegram #ref [:saas/secrets :telegram]
  :saas/migrator {:db #ig/ref :saas/db
                  :store :database
                  :migration-dir "migrations/"
