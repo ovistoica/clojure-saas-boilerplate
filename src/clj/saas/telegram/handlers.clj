@@ -27,15 +27,14 @@
        first
        :message
        :content
-       (edn/read-string)
-       (calories->resp)) )
+       ) )
 
 
 (comment
- (-> (prompts/calories-and-macros "60g of oats, 2 scoops of whey protein and 30g of strawberries")
-     (openai-response)
-     (edn/read-string))
 
+ (-> (prompts/input->ingredients-quantities
+      "60g of oats, 2 scoops of whey protein and 30g of strawberries")
+     (openai-response) )
  (openai-response (prompts/calories-and-macros "Big pepperoni pizza")))
 
 (defn handle-message
