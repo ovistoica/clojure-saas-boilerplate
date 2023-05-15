@@ -1,11 +1,15 @@
 (ns saas.server
   (:require
-    [ring.adapter.jetty :as jetty]
-    [integrant.core :as ig]
-    [saas.router :as router]
-    [saas.config :as c])
+   [ring.adapter.jetty :as jetty]
+   [integrant.core :as ig]
+   [saas.router :as router]
+   [saas.openai.openai]
+   [saas.telegram.core]
+   [saas.db.core]
+   [saas.config :as c])
   (:import
-    (org.eclipse.jetty.server Server)))
+   (org.eclipse.jetty.server Server))
+  (:gen-class))
 
 
 

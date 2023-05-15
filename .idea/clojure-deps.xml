@@ -4,6 +4,7 @@
     <option name="enabledAliases">
       <set>
         <option value="backend" />
+        <option value="build" />
         <option value="dev" />
         <option value="devcards" />
         <option value="frontend" />
