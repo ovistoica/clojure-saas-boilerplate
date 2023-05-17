@@ -6,6 +6,9 @@ executors:
       IMAGE_NAME: ovistoica/clojure-saas-template
     docker:
       - image: circleci/buildpack-deps:stretch
+    auth:
+      username: $DOCKERHUB_USERNAME
+      password: $DOCKERHUB_PASS
 jobs:
   build:
     working_directory: ~/cci-clojure-saas # directory where steps will run
