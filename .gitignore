@@ -109,3 +109,5 @@ out/devcards/js
 out/
 
 .calva/output-window
+
+infra/terraform.tfvars

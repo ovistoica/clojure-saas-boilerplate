@@ -23,6 +23,7 @@
       <excludeFolder url="file://$MODULE_DIR$/resources/public/assets/js" />
       <excludeFolder url="file://$MODULE_DIR$/.shadow-cljs" />
       <excludeFolder url="file://$MODULE_DIR$/resources/public/assets/css" />
+      <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

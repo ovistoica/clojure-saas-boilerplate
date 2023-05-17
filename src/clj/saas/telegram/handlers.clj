@@ -1,6 +1,5 @@
 (ns saas.telegram.handlers
   (:require [integrant.repl.state :as state]
-            [clojure.edn :as edn]
             [saas.telegram.api.methods :as tbot]
             [saas.telegram.api.updates :as tbu]
             [saas.openai.prompts :as prompts]
@@ -21,20 +20,20 @@
 (defn openai-response
   [prompt]
   (->> (openai/create-chat-completion (openai) {:model "gpt-3.5-turbo"
-                                            :messages [{:role "user"
-                                                        :content prompt}]})
+                                                :messages [{:role "user"
+                                                            :content prompt}]})
        :choices
        first
        :message
        :content
-       ) )
+       ))
 
 
 (comment
 
  (-> (prompts/input->ingredients-quantities
       "60g of oats, 2 scoops of whey protein and 30g of strawberries")
-     (openai-response) )
+     (openai-response))
  (openai-response (prompts/calories-and-macros "Big pepperoni pizza")))
 
 (defn handle-message
@@ -75,5 +74,5 @@
 (comment
  (check-for-updates (db) (telegram))
 
-
+ "100 grams of whole wheat spaghetti \\\\n100 grams of shrimp \\\\n100 grams of veggie mix (zucchini, bell pepper, carrot) \\\\n20 grams of butter \\\\n10 grams of nutritional yeast"
  )
