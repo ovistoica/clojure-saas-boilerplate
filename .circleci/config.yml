@@ -5,7 +5,7 @@ executors:
     environment:
       IMAGE_NAME: ovistoica/clojure-saas-template
     docker:
-      - image: circleci/buildpack-deps:stretch
+      - image: cimg/base:2023.05
         auth:
           username: $DOCKERHUB_USERNAME
           password: $DOCKERHUB_PASS
