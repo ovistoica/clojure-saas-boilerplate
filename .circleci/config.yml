@@ -27,7 +27,7 @@ jobs:
             - clojure-saas-{{ checksum "deps.edn" }}
             # fallback to using the latest cache if no exact match is found
             - clojure-saas-
-      - run: clj -T:build uber
+      - run: clojure -T:build uber
       - save_cache:
           paths:
             - ~/.m2
