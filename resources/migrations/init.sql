@@ -1,5 +1,4 @@
 drop table if exists account;
-
 create table account
 (
     uid               text not null primary key,

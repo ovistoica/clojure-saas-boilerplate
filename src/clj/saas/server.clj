@@ -2,7 +2,6 @@
   (:require
    [ring.adapter.jetty :as jetty]
    [integrant.core :as ig]
-   [integrant.repl :as ig-repl]
    [saas.router :as router]
    [saas.openai.openai]
    [saas.telegram.core]
@@ -45,10 +44,10 @@
 (defn start-system
   []
   (let [config (dissoc (c/config) :saas/secrets)]
-    (ig-repl/set-prep! config)
-    (ig-repl/go)))
+    (-> config (ig/prep) (ig/init))))
 
 (defn -main
   [& args]
+  (start-system)
   (apply nrepl-cmd/-main args))
 

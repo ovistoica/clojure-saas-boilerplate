@@ -2,7 +2,6 @@
   "Namespace dedicated to DB setup and useful sql functions"
   (:require [hikari-cp.core :as hik]
             [integrant.core :as ig]
-            [clojure.set :as set]
             [migratus.core :as migratus]
             [next.jdbc.connection :as conn]
             [next.jdbc :as jdbc]))
@@ -29,9 +28,8 @@
         tables (->> (jdbc/execute! db sql)
                     (map :tablename)
                     (set))]
-    (= tables (set/intersection
-               tables
-               #{migration-table-name "account"}))))
+    (and (contains? tables "account")
+         (contains? tables migration-table-name))))
 
 ;Initiate the db connection pool
 (defmethod ig/init-key :saas/db

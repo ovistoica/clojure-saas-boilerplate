@@ -21,6 +21,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/cljs" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/test/clj" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/test/cljs" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/tasks/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/logs" />
       <excludeFolder url="file://$MODULE_DIR$/.idea/libraries" />
       <excludeFolder url="file://$MODULE_DIR$/.cpcache" />

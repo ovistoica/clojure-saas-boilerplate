@@ -3,6 +3,7 @@
    [clojure.java.io :as io]
    [integrant.repl :as ig-repl]
    [integrant.repl.state :as state]
+   [next.jdbc :as jdbc]
    [saas.auth :as auth]
    [saas.telegram.api.methods :as tbot]
    [saas.telegram.api.updates :as tbu]
@@ -59,4 +60,12 @@
 
  )
 
+(comment
+
+
+ (let [sql ["select tablename from pg_tables where schemaname = 'public';"]
+       tables (->> (jdbc/execute! (db) sql)
+                   (map :tablename)
+                   (set))]
+   (= tables)))
 
