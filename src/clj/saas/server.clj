@@ -2,10 +2,12 @@
   (:require
    [ring.adapter.jetty :as jetty]
    [integrant.core :as ig]
+   [integrant.repl :as ig-repl]
    [saas.router :as router]
    [saas.openai.openai]
    [saas.telegram.core]
    [saas.db.core]
+   [nrepl.cmdline :as nrepl-cmd]
    [saas.config :as c])
   (:import
    (org.eclipse.jetty.server Server))
@@ -40,8 +42,13 @@
   [_ ^Server server]
   (.stop server))
 
-(defn -main
+(defn start-system
   []
   (let [config (dissoc (c/config) :saas/secrets)]
-    (-> config ig/prep ig/init)))
+    (ig-repl/set-prep! config)
+    (ig-repl/go)))
+
+(defn -main
+  [& args]
+  (apply nrepl-cmd/-main args))
 

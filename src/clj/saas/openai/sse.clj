@@ -82,22 +82,11 @@
   (pprint/pprint resp)
   resp)
 
-(defn wrap-log
-  [client]
-  (fn
-    ([req]
-     (let [resp (client req)]
-       (log-and-return resp)))
-    ([req respond raise]
-     (client req
-             #(respond (log-and-return %))
-             raise))))
-
 ; Create your own middleware stack.
 ; Note that ordering is important here:
 ; - After wrap-request-timing so :request-time is available on the response
 ; - Before wrap-exceptions so that exceptional responses have not yet caused an exception to be thrown
-(def my-middleware (concat [(first hm/default-middleware) wrap-log] (drop 1 hm/default-middleware)))
+(def my-middleware (concat [(first hm/default-middleware)] (drop 1 hm/default-middleware)))
 
 (def perform-sse-capable-request
   {:name ::perform-sse-capable-request

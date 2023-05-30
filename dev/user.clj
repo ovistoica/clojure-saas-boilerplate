@@ -3,9 +3,6 @@
    [clojure.java.io :as io]
    [integrant.repl :as ig-repl]
    [integrant.repl.state :as state]
-   [clojure.data.json :as json]
-   [migratus.core :as migratus]
-   [muuntaja.core :as m]
    [saas.auth :as auth]
    [saas.telegram.api.methods :as tbot]
    [saas.telegram.api.updates :as tbu]
@@ -32,10 +29,6 @@
 (defn message->text
   [message]
   (-> message :message :text))
-
-
-
-
 
 
 (comment

@@ -111,3 +111,5 @@ out/
 .calva/output-window
 
 infra/terraform.tfvars
+
+config.edn

@@ -131,4 +131,4 @@
 
 (comment
 
-  (create-migration "telegram-updates" :sql))
+  (create-migration "calorie-goals" :sql))

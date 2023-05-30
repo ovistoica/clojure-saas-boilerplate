@@ -1,5 +1,6 @@
 (ns saas.telegram.handlers
   (:require [integrant.repl.state :as state]
+            [clojure.edn :as edn]
             [saas.telegram.api.methods :as tbot]
             [saas.telegram.api.updates :as tbu]
             [saas.openai.prompts :as prompts]
@@ -26,6 +27,8 @@
        first
        :message
        :content
+       (edn/read-string)
+       (calories->resp)
        ))
 
 
