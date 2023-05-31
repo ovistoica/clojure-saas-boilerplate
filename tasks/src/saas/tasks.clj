@@ -9,7 +9,9 @@
             [clojure.java.io :as io]
             [clojure.java.shell :as sh]
             [clojure.string :as str]
-            [clojure.stacktrace :as st]))
+            [clojure.stacktrace :as st])
+  (:import (java.security SecureRandom)
+           (java.util Base64)))
 
 (defmacro future-verbose [& body]
   `(future
@@ -22,8 +24,8 @@
 
 (defn new-secret [length]
   (let [buffer (byte-array length)]
-    (.nextBytes (java.security.SecureRandom/getInstanceStrong) buffer)
-    (.encodeToString (java.util.Base64/getEncoder) buffer)))
+    (.nextBytes (SecureRandom/getInstanceStrong) buffer)
+    (.encodeToString (Base64/getEncoder) buffer)))
 
 (defn generate-secrets
   "Prints new values to put in secrets.env."
