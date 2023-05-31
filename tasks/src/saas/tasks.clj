@@ -131,15 +131,13 @@
                                (str "clj "))])]
     (println "eval" (str/join " ; " commands))))
 
-(run-cmd)
-
 (defn css [& args]
   (apply shell
          (concat (if (fs/exists? (tailwind-path))
                    [(tailwind-path)]
                    ["npx" "tailwindcss"])
-                 ["-c" "resources/tailwind.config.js"
-                  "-i" "resources/tailwind.css"
+                 ["-c" "tailwind.config.js"
+                  "-i" "resources/css/tailwind.css"
                   "-o" "target/resources/public/css/main.css"]
                  args)))
 
@@ -196,12 +194,6 @@
   (shell "sudo" "systemctl" "reset-failed" "app.service")
   (shell "sudo" "systemctl" "restart" "app"))
 
-
-(let [{:saas.tasks/keys [server deploy-to deploy-from deploy-cmd]} @config]
-
-  deploy-to
-
-  )
 
 (defn deploy
   "Deploys the app via `git push`.

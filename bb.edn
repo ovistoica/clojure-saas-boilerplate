@@ -1,0 +1,20 @@
+{:deps {saas/tasks {:local/root "tasks"}}
+ :tasks {;; Used only in local development.
+         dev              saas.tasks/dev
+         css              saas.tasks/css
+         format           saas.tasks/format
+         clean            saas.tasks/clean
+         generate-secrets saas.tasks/generate-secrets
+
+         ;; Used for interacting with production.
+         deploy           saas.tasks/deploy
+         soft-deploy      saas.tasks/soft-deploy
+         refresh          saas.tasks/refresh
+         restart          saas.tasks/restart
+         logs             saas.tasks/logs
+         prod-repl        saas.tasks/prod-repl
+         prod-dev         saas.tasks/prod-dev
+
+         ;; Internal tasks called by Biff in production.
+         post-receive     saas.tasks/post-receive
+         run-cmd          saas.tasks/run-cmd}}
