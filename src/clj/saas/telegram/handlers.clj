@@ -87,7 +87,7 @@
 
 (comment
  (tbu/get-updates (telegram))
- (tbu/set-webhook (telegram) url)
+ (tbu/set-webhook (telegram) "")
  (check-for-updates (db) (telegram))
 
  "100 grams of whole wheat spaghetti \\\\n100 grams of shrimp \\\\n100 grams of veggie mix (zucchini, bell pepper, carrot) \\\\n20 grams of butter \\\\n10 grams of nutritional yeast"

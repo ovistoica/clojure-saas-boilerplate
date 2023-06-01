@@ -27,13 +27,20 @@
   (create (:nutri-bot-token config)))
 
 
+(defn prod?
+  [env]
+  (= env :production))
 
 (defmethod ig/init-key :saas/telegram-webhook
-  [_ {:keys [telegram-config telegram]}]
+  [_ {:keys [telegram-config telegram env] :as config}]
   (let [{:keys [webhook-url]} telegram-config]
-    (println "Initializing telegram webhook \n")
-    (tbu/set-webhook telegram webhook-url)))
+    (when (prod? env)
+      (println "Initializing telegram webhook \n")
+      (tbu/set-webhook telegram webhook-url))
+    config))
 
 (defmethod ig/halt-key! :saas/telegram-webhook
-  [_ {:keys [telegram]}]
-  (tbu/set-webhook telegram ""))
+  [_ {:keys [telegram env]}]
+  (when (prod? env)
+    (println "Killing webhook connection \n")
+    (tbu/set-webhook telegram "")))

@@ -20,8 +20,6 @@
                  :on-conflict :chat_id
                  :do-update-set :last_update_id} {:debug true}))
 
-
-
 (comment
  (upsert-chat-last-update-id! (-> state/system :saas/db) {:update-id 3 :chat-id 2})
 

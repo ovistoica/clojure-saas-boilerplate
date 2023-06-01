@@ -36,9 +36,14 @@
   (println "Started app \n")
   (app config))
 
+(defmethod ig/init-key :saas/environment
+  [_ config]
+  config)
+
 (defmethod ig/halt-key! :server/jetty
   [_ ^Server server]
   (.stop server))
+
 
 (defn start-system
   []

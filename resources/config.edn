@@ -8,14 +8,17 @@
                 :openai #ig/ref :saas/openai
                 :telegram #ig/ref :saas/telegram}
  :auth/cognito #ref [:saas/secrets :cognito]
- :saas/db #ref [:saas/secrets :db]
  :saas/openai #ref [:saas/secrets :openai]
  :saas/telegram #ref [:saas/secrets :telegram]
- :saas/telegram-webhook {:telegram #ig/ref :saas/telegram
+ :saas/telegram-webhook {:env #ig/ref :saas/environment
+                         :telegram #ig/ref :saas/telegram
                          :telegram-config #ref [:saas/secrets :telegram]}
+ :saas/environment :development
  :saas/migrator {:db #ig/ref :saas/db
                  :store :database
                  :migration-dir "migrations/"
                  :migration-table-name "migrations"
                  :init-in-transaction? true
-                 :init-script "init.sql"}}
+                 :init-script "init.sql"}
+ :saas/db #ref [:saas/secrets :db]}
+
