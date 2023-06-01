@@ -9,9 +9,10 @@
   [{:keys [auth] :as system}]
   [["/telegram-webhook" {:swagger {:tags ["telegram"]}}
     ["" {:post {:summary "Telegram webhook"
-                 :description "Telegram webhook"
-                 :parameters {:body s/telegram-webhook-request}
-                 :handler (telegram/telegram-webhook-handler system)}}]]
+                :description "Telegram webhook"
+                :parameters {:body s/telegram-webhook-request}
+                :responses {200 {:body s/telegram-webhook-response}}
+                :handler (telegram/telegram-webhook-handler system)}}]]
    ["/account" {:swagger {:tags ["account"]}
                 :middleware [[mw/wrap-snake->kebab->snake]]}
     ["/sign-up" {:post {:summary "Create an account using cognito"

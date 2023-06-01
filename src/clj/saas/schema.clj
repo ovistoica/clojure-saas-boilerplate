@@ -30,6 +30,9 @@
    [:first_name {:optional true} [:maybe string?]]
    [:last_name {:optional true} [:maybe string?]]])
 
+(def telegram-webhook-response
+  [:enum "ok"])
+
 (def telegram-webhook-request
   [:map
    [:update_id number?]

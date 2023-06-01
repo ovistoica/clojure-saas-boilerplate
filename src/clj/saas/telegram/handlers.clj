@@ -36,7 +36,6 @@
         text (-> message :text)
         prompt (prompts/calories-and-macros text)
         response (openai-response openai prompt)]
-    (log/info "Handling message" message response)
     (tbot/send-message telegram {:chat_id chat-id :text response})))
 
 
@@ -76,7 +75,10 @@
   (fn [req]
     (let [message-body (-> req :parameters :body)]
       (try
+        (log/info "Handling message" message-body)
         (handle-message message-body config)
+        {:status 200
+         :body "ok"}
         (rr/status 200)
         (catch Exception e
           (log/error e)
