@@ -1,6 +1,7 @@
 (ns saas.telegram.handlers
   (:require [integrant.repl.state :as state]
             [clojure.edn :as edn]
+            [ring.util.response :as rr]
             [saas.telegram.api.methods :as tbot]
             [clojure.tools.logging :as log]
             [saas.telegram.api.updates :as tbu]
@@ -74,8 +75,13 @@
   [config]
   (fn [req]
     (let [message-body (-> req :parameters :body)]
-      (handle-message message-body config)))
-  )
+      (try
+        (handle-message message-body config)
+        (rr/status 200)
+        (catch Exception e
+          (log/error e)
+          {:status 500
+           :body "Error"})))))
 
 
 
