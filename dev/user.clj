@@ -64,8 +64,8 @@
 
 
  (let [sql ["select tablename from pg_tables where schemaname = 'public';"]
-       tables (->> (jdbc/execute! (db) sql)
-                   (map :tablename)
-                   (set))]
-   (= tables)))
+       tables (->> (jdbc/execute! (db) sql) )]
+   (->> tables
+        (map :tablename)
+        (map #(str "agnxsh_" %)))))
 

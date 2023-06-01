@@ -11,6 +11,8 @@
  :saas/db #ref [:saas/secrets :db]
  :saas/openai #ref [:saas/secrets :openai]
  :saas/telegram #ref [:saas/secrets :telegram]
+ :saas/telegram-webhook {:telegram #ig/ref :saas/telegram
+                         :telegram-config #ref [:saas/secrets :telegram]}
  :saas/migrator {:db #ig/ref :saas/db
                  :store :database
                  :migration-dir "migrations/"

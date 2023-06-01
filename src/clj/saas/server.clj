@@ -36,7 +36,6 @@
   (println "Started app \n")
   (app config))
 
-
 (defmethod ig/halt-key! :server/jetty
   [_ ^Server server]
   (.stop server))

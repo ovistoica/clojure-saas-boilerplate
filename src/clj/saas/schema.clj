@@ -30,6 +30,27 @@
    [:first_name {:optional true} [:maybe string?]]
    [:last_name {:optional true} [:maybe string?]]])
 
+(def telegram-webhook-request
+  [:map
+   [:update_id number?]
+   [:message [:map
+              [:message_id number?]
+              [:from [:map
+                      [:id number?]
+                      [:is_bot boolean?]
+                      [:first_name string?]
+                      [:last_name string?]
+                      [:username string?]
+                      [:language_code string?]]]
+              [:chat [:map
+                      [:id number?]
+                      [:first_name string?]
+                      [:last_name string?]
+                      [:username string?]
+                      [:type string?]]]
+              [:date number?]
+              [:text string?]]]])
+
 (def log-in-request-body
   [:map
    [:email email]

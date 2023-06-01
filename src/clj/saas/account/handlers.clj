@@ -1,8 +1,8 @@
 (ns saas.account.handlers
   (:require
-    [ring.util.response :as rr]
-    [saas.account.db :as db]
-    [saas.auth :as auth]))
+   [ring.util.response :as rr]
+   [saas.account.db :as db]
+   [saas.auth :as auth]))
 
 (defn sign-up!
   [{:keys [auth db]}]
