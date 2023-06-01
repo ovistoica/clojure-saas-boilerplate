@@ -8,7 +8,7 @@
 (defn saas-routes
   [{:keys [auth] :as system}]
   [["/telegram-webhook" {:swagger {:tags ["telegram"]}}
-    ["/" {:post {:summary "Telegram webhook"
+    ["" {:post {:summary "Telegram webhook"
                  :description "Telegram webhook"
                  :parameters {:body s/telegram-webhook-request}
                  :handler (telegram/telegram-webhook-handler system)}}]]

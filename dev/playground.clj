@@ -1,12 +1,17 @@
 (ns playground
   (:require [clojure.edn :as edn]
             [integrant.repl.state :as state]
+            [saas.telegram.api.updates :as tbu]
             [saas.openai.api :as openai]))
 
 (defn telegram [] (-> state/system :saas/telegram))
 (defn db [] (-> state/system :saas/db))
 (defn openai [] (-> state/system :saas/openai))
 
+
+(comment
+
+ (tbu/get-webhook-info (telegram)))
 
 
 (def isa-chat-id 5786497568)
