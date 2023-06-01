@@ -2,6 +2,7 @@
   (:require [integrant.repl.state :as state]
             [clojure.edn :as edn]
             [saas.telegram.api.methods :as tbot]
+            [clojure.tools.logging :as log]
             [saas.telegram.api.updates :as tbu]
             [saas.openai.prompts :as prompts]
             [saas.openai.api :as openai]
@@ -34,6 +35,7 @@
         text (-> message :text)
         prompt (prompts/calories-and-macros text)
         response (openai-response openai prompt)]
+    (log/info "Handling message" message response)
     (tbot/send-message telegram {:chat_id chat-id :text response})))
 
 
@@ -73,7 +75,6 @@
   (fn [req]
     (let [message-body (-> req :parameters :body)]
       (handle-message message-body config)))
-
   )
 
 
