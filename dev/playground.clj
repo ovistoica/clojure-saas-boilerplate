@@ -1,8 +1,7 @@
 (ns playground
-  (:require [clojure.edn :as edn]
-            [integrant.repl.state :as state]
-            [saas.telegram.api.updates :as tbu]
-            [saas.openai.api :as openai]))
+  (:require
+   [integrant.repl.state :as state]
+   [saas.telegram.api.updates :as tbu]))
 
 (defn telegram [] (-> state/system :saas/telegram))
 (defn db [] (-> state/system :saas/db))
