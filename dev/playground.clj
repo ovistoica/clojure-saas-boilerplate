@@ -10,7 +10,9 @@
 
 
 (comment
+ (tbu/get-updates (telegram))
 
+ (tbu/delete-webhook (telegram))
  (tbu/get-webhook-info (telegram)))
 
 

@@ -11,7 +11,7 @@
     ["" {:post {:summary "Telegram webhook"
                 :description "Telegram webhook"
                 :parameters {:body s/telegram-webhook-request}
-                :responses {200 {:body s/telegram-webhook-response}}
+                ;:responses {200 {:body s/telegram-webhook-response}}
                 :handler (telegram/telegram-webhook-handler system)}}]]
    ["/account" {:swagger {:tags ["account"]}
                 :middleware [[mw/wrap-snake->kebab->snake]]}
