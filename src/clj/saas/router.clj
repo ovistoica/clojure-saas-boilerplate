@@ -30,7 +30,7 @@
 
 (def router-config
   {:validate rs/validate
-   :reitit.middleware/transform dev/print-request-diffs     ;; This is for debugging purposes
+   ;:reitit.middleware/transform dev/print-request-diffs     ;; This is for debugging purposes
    :exception pretty/exception
    :conflicts (fn [conflicts]
                 (println (r-exception/format-exception :path-conflicts nil conflicts)))
