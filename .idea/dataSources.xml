@@ -8,5 +8,12 @@
       <jdbc-url>jdbc:postgresql://localhost:5432/saas</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="nutribot-production" uuid="6a51852c-72a2-4ce2-b8b5-157811f54ab8">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://dbaas-db-3656906-do-user-7104146-0.b.db.ondigitalocean.com:25060/nutribot</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

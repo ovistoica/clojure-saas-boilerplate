@@ -87,7 +87,7 @@ What did you have for your last meal?")
 
 (defn total-calories-for-today
   [db user-id]
-  (-> (->> (db/select-today-calorie-entries db user-id)
+  (-> (->> (or (db/select-today-calorie-entries db user-id) [])
            (reduce (fn [acc calorie-log]
                      (-> acc
                          (update :calories + (:calories calorie-log))
