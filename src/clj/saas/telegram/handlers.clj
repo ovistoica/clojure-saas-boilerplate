@@ -118,32 +118,35 @@ What did you have for your last meal?")
           date (-> message :date)
           bot-command (bot-command message)
           user (user message)]
-      (when-not (db/get-telegram-user db (:id user))
-        (db/insert-telegram-user! db user))
-      (cond
-        (= bot-command "/start")
-        (do (tbot/send-message (:telegram config) {:chat_id chat-id :text initial-response})
-            {:body "ok", :status 200})
-        (= bot-command "/recommend")
-        (do
-          (tbot/send-message (:telegram config)
-                             {:chat_id chat-id
-                              :text (recommend-food (:id user) config)})
-          {:body "ok", :status 200})
-        (= bot-command "/today")
-        (do (tbot/send-message (:telegram config)
+      (try
+        (when-not (db/get-telegram-user db (:id user))
+          (db/insert-telegram-user! db user))
+        (cond
+          (= bot-command "/start")
+          (do (tbot/send-message (:telegram config) {:chat_id chat-id :text initial-response})
+              {:body "ok", :status 200})
+          (= bot-command "/recommend")
+          (do
+            (tbot/send-message (:telegram config)
                                {:chat_id chat-id
-                                :text (macros->resp (total-calories-for-today db (:id user)))})
+                                :text (recommend-food (:id user) config)})
             {:body "ok", :status 200})
-        :else
-        (handle-calorie-message
-         {:chat-id chat-id
-          :text text
-          :date date
-          :user-id (:id user)}
-         config)))))
+          (= bot-command "/today")
+          (do (tbot/send-message (:telegram config)
+                                 {:chat_id chat-id
+                                  :text (macros->resp (total-calories-for-today db (:id user)))})
+              {:body "ok", :status 200})
+          :else
+          (handle-calorie-message
+           {:chat-id chat-id
+            :text text
+            :date date
+            :user-id (:id user)}
+           config))
+        (catch Exception e
+          (log/trace e)
+          {:body "error", :status 500})))))
 
-()
 
 (comment
  (def req {:parameters {:body {:message {:chat {:first_name "Ovidiu",
