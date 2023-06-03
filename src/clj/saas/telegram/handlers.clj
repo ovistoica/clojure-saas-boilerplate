@@ -22,7 +22,7 @@ What did you have for your last meal?")
        "Carbs: " carbs "\n"
        "Fat: " fat "\n"))
 
-(defn openai-calorie-response
+(defn openai-response
   [openai prompt]
   (->> (openai/create-chat-completion
         openai
@@ -32,8 +32,12 @@ What did you have for your last meal?")
        :choices
        first
        :message
-       :content
-       (edn/read-string)))
+       :content))
+
+(defn openai-calorie-response
+  [openai prompt]
+  (-> (openai-response openai prompt)
+      (edn/read-string)))
 
 (defn prompt->calorie-input
   [{:keys [calories protein carbs fat text user-id date]}]
@@ -87,6 +91,19 @@ What did you have for your last meal?")
                          (update :carbs + (:carbs calorie-log))))))
       (select-keys [:calories :proteins :carbs :fat])))
 
+(defn recommend-food
+  [user-id config]
+  (let [calories (->> (total-calories-for-today (:db config) user-id)
+                      :calories)
+        _ (println calories)
+        prompt (str "Pretend you are a nutrition food recomandation giving bot. Give me food recommendations for my next meal considering I already ate "
+                    calories
+                    " calories today. "
+                    "The recommendations should be healthy and low in calories for a normal human being.
+                    Reply with only the recommendations or if my calories are over the recommended amount, reply with a message saying you ate enough for today")
+        response (openai-response (:openai config) prompt)]
+    response))
+
 
 (defn telegram-webhook-handler
   [{:keys [db] :as config}]
@@ -103,6 +120,12 @@ What did you have for your last meal?")
         (= bot-command "/start")
         (do (tbot/send-message (:telegram config) {:chat_id chat-id :text initial-response})
             {:body "ok", :status 200})
+        (= bot-command "/recommend")
+        (do
+          (tbot/send-message (:telegram config)
+                             {:chat_id chat-id
+                              :text (recommend-food (:id user) config)})
+          {:body "ok", :status 200})
         (= bot-command "/today")
         (do (tbot/send-message (:telegram config)
                                {:chat_id chat-id
@@ -166,6 +189,18 @@ What did you have for your last meal?")
  (defn telegram [] (-> state/system :saas/telegram))
  (defn db [] (-> state/system :saas/db))
  (defn openai [] (-> state/system :saas/openai))
+
+ (openai-calorie-response (openai)
+                          (prompts/new-calorie-prompt "1 medium pepperoni pizza"))
+
+ (openai/create-chat-completion
+  (openai)
+  {:model "gpt-3.5-turbo"
+   :messages [{:role "user"
+               :content
+               (prompts/new-calorie-prompt "1 medium pepperoni pizza")
+               }]})
+
  (tbu/get-updates (telegram))
  (tbu/set-webhook (telegram) "")
 
