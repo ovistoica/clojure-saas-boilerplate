@@ -1,22 +1,28 @@
 (ns saas.telegram.handlers
   (:require [integrant.repl.state :as state]
             [clojure.edn :as edn]
-            [ring.util.response :as rr]
             [saas.telegram.api.methods :as tbot]
-            [clojure.tools.logging :as log]
             [saas.telegram.api.updates :as tbu]
             [saas.openai.prompts :as prompts]
             [saas.openai.api :as openai]
-            [saas.telegram.db :as db]))
+            [saas.telegram.db :as db]
+            [saas.util :as u]))
 
-(defn calories->resp
-  [{:keys [calories protein carbs fat]}]
+(def initial-response
+  "Hello!
+I'm SnackTalk, your personal AI-powered nutrition assistant.
+I'm here to make tracking your meals and understanding your nutrition as simple as possible.
+Let's get started!
+What did you have for your last meal?")
+
+(defn macros->resp
+  [{:keys [calories protein proteins carbs fat]}]
   (str "Calories: " calories "\n"
-       "Protein: " protein "\n"
+       "Protein: " (or protein proteins) "\n"
        "Carbs: " carbs "\n"
        "Fat: " fat "\n"))
 
-(defn openai-response
+(defn openai-calorie-response
   [openai prompt]
   (->> (openai/create-chat-completion
         openai
@@ -27,70 +33,142 @@
        first
        :message
        :content
-       (edn/read-string)
-       (calories->resp)))
+       (edn/read-string)))
 
-(defn handle-message
-  [{:keys [message]} {:keys [telegram openai]}]
-  (let [chat-id (-> message :chat :id)
-        text (-> message :text)
-        prompt (prompts/calories-and-macros text)
-        response (openai-response openai prompt)]
-    (tbot/send-message telegram {:chat_id chat-id :text response})))
-
-
-(defn handle-chat-messages
-  [chat-id messages {:keys [db] :as config}]
-  (let [latest-update-id (or (db/get-latest-update-id db chat-id)
-                             (->> (map :update_id messages)
-                                  (apply min)
-                                  (dec)))
-        new-messages (->> messages
-                          (filter #(> (:update_id %) latest-update-id)))]
-    (doseq [message new-messages]
-      (handle-message message config))
-    (when-let [update-id (some->> (seq new-messages)
-                                  (map :update_id)
-                                  (apply max))]
-      (db/upsert-chat-last-update-id! db {:update-id update-id
-                                          :chat-id chat-id}))))
+(defn prompt->calorie-input
+  [{:keys [calories protein carbs fat text user-id date]}]
+  {:calories calories
+   :log-time (u/unix-timestamp->java-timestamp date)
+   :proteins protein
+   :carbs carbs
+   :fat fat
+   :food-input text
+   :user-id user-id})
 
 
-(defn check-for-updates
-  [db telegram]
-  (let [updates (->> (tbu/get-updates telegram)
-                     :result)
-        updates-by-keys (group-by #(-> % :message :chat :id) updates)
-        chat-ids (keys updates-by-keys)]
-    (doseq [chat-id chat-ids]
-      (handle-chat-messages db chat-id (get updates-by-keys chat-id)))))
+(defn handle-calorie-message
+  [{:keys [chat-id text user-id date]} {:keys [telegram openai db]}]
+  (let [prompt (prompts/calories-and-macros text)
+        macros (openai-calorie-response openai prompt)
+        response (macros->resp macros)
+        calorie-log (prompt->calorie-input
+                     (assoc macros :text text :user-id user-id :date date))]
+    (db/insert-calorie-log! db calorie-log)
+    (tbot/send-message telegram {:chat_id chat-id :text response})
+    {:body "ok", :status 200}))
 
+(defn bot-command
+  [message]
+  (let [text (-> message :text)
+        entities (-> message :entities)]
+    (when-let [command-entity (->> entities
+                                   (filter #(= (:type %) "bot_command"))
+                                   first)]
+      (subs text (:offset command-entity) (:length command-entity)))))
 
-(defn telegram [] (-> state/system :saas/telegram))
-(defn db [] (-> state/system :saas/db))
-(defn openai [] (-> state/system :saas/openai))
+(defn user
+  [{:keys [from chat]}]
+  (-> (merge from chat)
+      (select-keys
+       [:id
+        :is_bot
+        :first_name
+        :last_name
+        :username
+        :language_code])))
+
+(defn total-calories-for-today
+  [db user-id]
+  (-> (->> (db/select-today-calorie-entries db user-id)
+           (reduce (fn [acc calorie-log]
+                     (-> acc
+                         (update :calories + (:calories calorie-log))
+                         (update :proteins + (:proteins calorie-log))
+                         (update :carbs + (:carbs calorie-log))))))
+      (select-keys [:calories :proteins :carbs :fat])))
+
 
 (defn telegram-webhook-handler
-  [config]
+  [{:keys [db] :as config}]
   (fn [req]
-    (let [message-body (-> req :parameters :body)]
-      (try
-        (log/info "Handling message" message-body)
-        (handle-message message-body config)
-        {:status 200
-         :body "ok"}
-        (rr/status 200)
-        (catch Exception e
-          (log/error e)
-          {:status 500
-           :body "Error"})))))
+    (let [message (-> req :parameters :body :message)
+          chat-id (-> message :chat :id)
+          text (-> message :text)
+          date (-> message :date)
+          bot-command (bot-command message)
+          user (user message)]
+      (when-not (db/get-telegram-user db (:id user))
+        (db/insert-telegram-user! db user))
+      (cond
+        (= bot-command "/start")
+        (do (tbot/send-message (:telegram config) {:chat_id chat-id :text initial-response})
+            {:body "ok", :status 200})
+        (= bot-command "/today")
+        (do (tbot/send-message (:telegram config)
+                               {:chat_id chat-id
+                                :text (macros->resp (total-calories-for-today db (:id user)))})
+            {:body "ok", :status 200})
+        :else
+        (handle-calorie-message
+         {:chat-id chat-id
+          :text text
+          :date date
+          :user-id (:id user)}
+         config)))))
+
+()
+
+(comment
+ (def req {:parameters {:body {:message {:chat {:first_name "Ovidiu",
+                                                :id 1641544258,
+                                                :last_name "Stoica",
+                                                :type "private",
+                                                :username "ovistoica"},
+                                         :date 1685769972,
+                                         :from {:first_name "Ovidiu",
+                                                :id 1641544258,
+                                                :is_bot false,
+                                                :language_code "en",
+                                                :last_name "Stoica",
+                                                :username "ovistoica"},
+                                         :message_id 315,
+                                         :text "test"},
+                               :update_id 714250907}}})
+
+ (def req-start {:parameters {:body {:message {:chat {:first_name "Ovidiu",
+                                                      :id 1641544258,
+                                                      :last_name "Stoica",
+                                                      :type "private",
+                                                      :username "ovistoica"},
+                                               :date 1685770046,
+                                               :entities [{:length 6,
+                                                           :offset 0,
+                                                           :type "bot_command"}],
+                                               :from {:first_name "Ovidiu",
+                                                      :id 1641544258,
+                                                      :is_bot false,
+                                                      :language_code "en",
+                                                      :last_name "Stoica",
+                                                      :username "ovistoica"},
+                                               :message_id 317,
+                                               :text "/start"},
+                                     :update_id 714250908}}})
+
+ (bot-command (-> req-start :parameters :body :message))
+ (user (-> req-start :parameters :body :message))
+
+ )
+
 
 
 
 (comment
+ (defn telegram [] (-> state/system :saas/telegram))
+ (defn db [] (-> state/system :saas/db))
+ (defn openai [] (-> state/system :saas/openai))
  (tbu/get-updates (telegram))
  (tbu/set-webhook (telegram) "")
- (check-for-updates (db) (telegram))
+
 
  "100 grams of whole wheat spaghetti \\\\n100 grams of shrimp \\\\n100 grams of veggie mix (zucchini, bell pepper, carrot) \\\\n20 grams of butter \\\\n10 grams of nutritional yeast"
  )

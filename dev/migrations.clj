@@ -131,4 +131,4 @@
 
 (comment
 
-  (create-migration "calorie-goals" :sql))
+  (create-migration "calories_user_id_not_unique" :sql))

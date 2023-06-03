@@ -1,0 +1,1 @@
+drop table if exists telegram_user;

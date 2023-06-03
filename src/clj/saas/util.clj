@@ -4,7 +4,10 @@
             [clojure.tools.logging :as log]
             [clojure.walk :refer [postwalk]]
             [next.jdbc :as jdbc])
-  (:import (java.sql SQLException SQLRecoverableException)))
+  (:import
+   (java.sql SQLException SQLRecoverableException Timestamp)
+   (java.time Instant ZoneId ZonedDateTime)
+   (java.time.format DateTimeFormatter)))
 
 (defn query->str
   "Converts a honeysql query to an SQL string."
@@ -12,10 +15,10 @@
   (let [[sql-string & params] (sql/format query :quoting :postgresql)]
     (reduce (fn [sql-query param]
               (string/replace-first
-                sql-query "?"
-                (cond
-                  (string? param) (str "'" param "'")
-                  :else param)))
+               sql-query "?"
+               (cond
+                 (string? param) (str "'" param "'")
+                 :else param)))
             sql-string params)))
 
 (defn log-sql-query [query]
@@ -32,9 +35,9 @@
              (when (:debug opts)
                (log-sql-query query))
              (jdbc/execute!
-               db
-               (sql/format query)
-               (dissoc opts :debug)))]
+              db
+              (sql/format query)
+              (dissoc opts :debug)))]
      (try (exec!)
           (catch SQLRecoverableException _
             (exec!))
@@ -86,3 +89,36 @@
 (def kebab-keys (partial transform-keys snake->kebab-keyword))
 (def snake_keys (partial transform-keys kebab->snake-keyword))
 (def camelKeys (partial transform-keys ->camel))
+
+(defn unix-timestamp->formatted-datetime
+  "1685769972 -> 2021-03-01 09:26:12 UTC"
+  [unix-timestamp]
+  (let [instant (Instant/ofEpochSecond unix-timestamp)
+        zoned-dt (ZonedDateTime/ofInstant instant (ZoneId/systemDefault))
+        formatter (DateTimeFormatter/ofPattern "yyyy-MM-dd HH:mm:ss")]
+    (.format formatter zoned-dt)))
+
+(defn unix-timestamp->formatted-date
+  "1685769972 -> 2021-03-01"
+  [unix-timestamp]
+  (let [instant (Instant/ofEpochSecond unix-timestamp)
+        zoned-dt (ZonedDateTime/ofInstant instant (ZoneId/systemDefault))
+        formatter (DateTimeFormatter/ofPattern "yyyy-MM-dd")]
+    (.format formatter zoned-dt)))
+
+(defn unix-timestamp->time-of-day
+  "1685769972 -> 09:26:12"
+  [unix-timestamp]
+  (let [instant (Instant/ofEpochSecond unix-timestamp)
+        zoned-dt (ZonedDateTime/ofInstant instant (ZoneId/systemDefault))
+        formatter (DateTimeFormatter/ofPattern "HH:mm:ss")]
+    (.format formatter zoned-dt)))
+
+(defn unix-timestamp->java-timestamp
+  [unix-timestamp]
+  (Timestamp. (* unix-timestamp 1000)))
+
+(comment
+
+ (unix-timestamp->java-timestamp 1685769972)
+ (Instant/parse (unix-timestamp->formatted-datetime 1685769972)))

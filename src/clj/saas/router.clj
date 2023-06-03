@@ -2,13 +2,11 @@
   (:require [reitit.ring :as ring]
             [reitit.swagger :as swagger]
             [reitit.swagger-ui :as swagger-ui]
-            [ring.util.response :as rr]
             [muuntaja.core :as m]
             [reitit.coercion.malli :as coercion-malli]
             [reitit.ring.middleware.muuntaja :as muuntaja]
             [reitit.ring.middleware.parameters :as parameters]
             [reitit.ring.middleware.multipart :as multipart]
-            [reitit.coercion.spec :as coercion-spec]
             [reitit.ring.coercion :as coercion]
             [reitit.dev.pretty :as pretty]
             [reitit.ring.spec :as rs]
@@ -32,7 +30,7 @@
 
 (def router-config
   {:validate rs/validate
-   ;:reitit.middleware/transform dev/print-request-diffs     ;; This is for debugging purposes
+   :reitit.middleware/transform dev/print-request-diffs     ;; This is for debugging purposes
    :exception pretty/exception
    :conflicts (fn [conflicts]
                 (println (r-exception/format-exception :path-conflicts nil conflicts)))

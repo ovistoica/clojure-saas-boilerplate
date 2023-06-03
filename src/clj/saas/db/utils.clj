@@ -2,8 +2,7 @@
   (:require [clojure.tools.logging :as log]
             [honey.sql :as sql]
             [clojure.string :as string]
-            [next.jdbc :as jdbc]
-            [next.jdbc.result-set :as rs])
+            [next.jdbc :as jdbc])
   (:import (java.sql SQLException SQLRecoverableException)))
 
 (defn query->str [query]
@@ -33,7 +32,7 @@
              (jdbc/execute-one!
               db (sql/format query)
               (merge
-               {:builder-fn rs/as-unqualified-lower-maps}
+               jdbc/unqualified-snake-kebab-opts
                (dissoc opts :debug))))]
      (try (exec-one!)
           (catch SQLRecoverableException _
@@ -55,7 +54,7 @@
               db
               (sql/format query)
               (merge
-               {:builder-fn rs/as-unqualified-lower-maps}
+               jdbc/unqualified-snake-kebab-opts
                (dissoc opts :debug))))]
      (try (exec!)
           (catch SQLRecoverableException _
