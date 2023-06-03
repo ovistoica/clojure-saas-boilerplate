@@ -6,7 +6,8 @@
             [saas.openai.prompts :as prompts]
             [saas.openai.api :as openai]
             [saas.telegram.db :as db]
-            [saas.util :as u]))
+            [saas.util :as u]
+            [tripod.log :as log]))
 
 (def initial-response
   "Hello!
@@ -24,15 +25,18 @@ What did you have for your last meal?")
 
 (defn openai-response
   [openai prompt]
-  (->> (openai/create-chat-completion
-        openai
-        {:model "gpt-3.5-turbo"
-         :messages [{:role "user"
-                     :content prompt}]})
-       :choices
-       first
-       :message
-       :content))
+  (log/info "Prompt: " prompt)
+  (let [response (->> (openai/create-chat-completion
+                       openai
+                       {:model "gpt-3.5-turbo"
+                        :messages [{:role "user"
+                                    :content prompt}]})
+                      :choices
+                      first
+                      :message
+                      :content)]
+    (log/info "Ai Response: " response)
+    response))
 
 (defn openai-calorie-response
   [openai prompt]
