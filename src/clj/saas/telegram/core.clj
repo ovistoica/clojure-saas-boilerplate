@@ -34,7 +34,7 @@
 (defmethod ig/init-key :saas/telegram-webhook
   [_ {:keys [telegram-config telegram env] :as config}]
   (let [{:keys [webhook-url]} telegram-config]
-    (when (prod? env)
+    (when (not (prod? env))
       (println "Initializing telegram webhook \n")
       (tbu/set-webhook telegram webhook-url))
     config))
