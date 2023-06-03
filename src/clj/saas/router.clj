@@ -1,5 +1,6 @@
 (ns saas.router
-  (:require [reitit.ring :as ring]
+  (:require [clojure.tools.logging :as log]
+            [reitit.ring :as ring]
             [reitit.swagger :as swagger]
             [reitit.swagger-ui :as swagger-ui]
             [muuntaja.core :as m]
@@ -28,6 +29,33 @@
                       :version "1.0.0"}}
      :handler (swagger/create-swagger-handler)}}])
 
+(defn wrap-logging
+  "Logs the request, and timing info (once the response has been made)"
+  [handler]
+  (fn [req]
+    (let [{:reitit.core/keys [match]
+           :keys [uri request-method]} req
+          {:keys [status error]
+           :as response} (handler req)
+          message (pr-str (merge
+                           {:id (get-in match [:data :name])
+                            :uri uri
+                            :method request-method
+                            :status status}
+                           (when (and error
+                                      (>= status 500))
+                             {:error error})
+                           (when (and error
+                                      (>= status 500)
+                                      (= request-method :post))
+                             {:body (:body-params req)})
+                           (when-let [qs (:query-string req)]
+                             {:query-string qs})))]
+      (if (>= status 500)
+        (log/error message)
+        (log/info message))
+      response)))
+
 (def router-config
   {:validate rs/validate
    ;:reitit.middleware/transform dev/print-request-diffs     ;; This is for debugging purposes
@@ -53,7 +81,9 @@
                        ;; coercing request parameters
                        coercion/coerce-request-middleware
                        ;; multipart
-                       multipart/multipart-middleware]}})
+                       multipart/multipart-middleware
+                       ;;
+                       wrap-logging]}})
 
 
 (defn cors-middleware
@@ -65,13 +95,13 @@
 (defn routes
   [config]
   (ring/ring-handler
-    (ring/router
-      [swagger-docs
-       ["/v1"
-        (saas.routes/saas-routes config)]]
-      router-config)
-    (ring/routes
-      (swagger-ui/create-swagger-ui-handler {:path "/"})
-      ; Finally, if nothing matches, return 404
-      (constantly {:status 404, :body ""}))
-    {:middleware [cors-middleware]}))
+   (ring/router
+    [swagger-docs
+     ["/v1"
+      (saas.routes/saas-routes config)]]
+    router-config)
+   (ring/routes
+    (swagger-ui/create-swagger-ui-handler {:path "/"})
+    ; Finally, if nothing matches, return 404
+    (constantly {:status 404, :body ""}))
+   {:middleware [cors-middleware]}))
