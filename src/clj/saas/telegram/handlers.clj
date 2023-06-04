@@ -85,15 +85,19 @@ What did you have for your last meal?")
         :username
         :language_code])))
 
+(def user-id 1641544258)
+
 (defn total-calories-for-today
   [db user-id]
-  (-> (->> (or (db/select-today-calorie-entries db user-id) [])
-           (reduce (fn [acc calorie-log]
-                     (-> acc
-                         (update :calories + (:calories calorie-log))
-                         (update :proteins + (:proteins calorie-log))
-                         (update :carbs + (:carbs calorie-log))))))
-      (select-keys [:calories :proteins :carbs :fat])))
+  (let [calorie-entries (db/select-today-calorie-entries db user-id)]
+    (-> (reduce (fn [acc calorie-log]
+                  (-> acc
+                      (update :calories + (:calories calorie-log))
+                      (update :proteins + (:proteins calorie-log))
+                      (update :carbs + (:carbs calorie-log))))
+                {}
+                calorie-entries)
+        (select-keys [:calories :proteins :carbs :fat]))))
 
 (defn recommend-food
   [user-id config]
@@ -122,17 +126,20 @@ What did you have for your last meal?")
         (db/insert-telegram-user! db user))
       (cond
         (= bot-command "/start")
-        (do (tbot/send-message (:telegram config) {:chat_id chat-id :text initial-response})
-            {:body "ok", :status 200})
+        (do
+          (tbot/send-message
+           (:telegram config)
+           {:chat_id chat-id :text initial-response})
+          {:body "ok", :status 200})
         (= bot-command "/recommend")
         (do
-          (tbot/send-message (:telegram config)
-                             {:chat_id chat-id
-                              :text (recommend-food (:id user) config)})
+          (tbot/send-message
+           (:telegram config)
+           {:chat_id chat-id
+            :text (recommend-food (:id user) config)})
           {:body "ok", :status 200})
         (= bot-command "/today")
-        (let [totals (total-calories-for-today db (:id user))
-              _ (println totals)]
+        (let [totals (total-calories-for-today db (:id user))]
           (tbot/send-message (:telegram config)
                              {:chat_id chat-id
                               :text (macros->resp totals)})
@@ -143,10 +150,7 @@ What did you have for your last meal?")
           :text text
           :date date
           :user-id (:id user)}
-         config))
-      )))
-
-
+         config)))))
 (comment
  (def req {:parameters {:body {:message {:chat {:first_name "Ovidiu",
                                                 :id 1641544258,

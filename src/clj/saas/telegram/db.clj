@@ -86,6 +86,9 @@
  (get-telegram-user (-> state/system :saas/db) 164154428)
 
 
+ (def user-id 1641544258)
+ (select-today-calorie-entries (-> state/system :saas/db) user-id)
+
  (upsert-chat-last-update-id! (-> state/system :saas/db) {:update-id 3 :chat-id 2})
 
  (get-latest-update-id (-> state/system :saas/db) 2)
