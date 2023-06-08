@@ -168,7 +168,7 @@
 (def telegram-webhook-request
   [:map
    [:update_id number?]
-   [:message telegram-message]])
+   [:message {:optional true} telegram-message]])
 
 (def log-in-request-body
   [:map

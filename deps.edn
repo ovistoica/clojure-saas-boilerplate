@@ -2,7 +2,7 @@
  :deps
  {;; core
   org.clojure/clojure {:mvn/version "1.10.3"}
-  org.clojure/core.async {:mvn/version "1.2.603"}
+  org.clojure/core.async {:mvn/version "1.6.673"}
   nrepl/nrepl {:mvn/version "1.0.0"}
   ;; config
   integrant/integrant {:mvn/version "0.8.0"}
