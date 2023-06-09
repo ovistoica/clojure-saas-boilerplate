@@ -3,7 +3,8 @@
    - [Getting started](https://github.com/wdhowe/telegrambot-lib#usage)"
   (:gen-class)
   (:require [integrant.core :as ig]
-            [saas.telegram.api.updates :as tbu]))
+            [saas.telegram.api.updates :as tbu]
+            [tripod.log :as log]))
 
 (defn create
   "Create a new Telegram Bot API instance.
@@ -36,6 +37,7 @@
   (let [{:keys [webhook-url]} telegram-config]
     (when (prod? env)
       (println "Initializing telegram webhook \n")
+      (log/info (str "Webhook url: " webhook-url))
       (tbu/set-webhook telegram webhook-url))
     config))
 
