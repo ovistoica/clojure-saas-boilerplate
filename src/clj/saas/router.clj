@@ -94,6 +94,7 @@
 
 (defn routes
   [config]
+  (println (:telegram config))
   (ring/ring-handler
    (ring/router
     [swagger-docs

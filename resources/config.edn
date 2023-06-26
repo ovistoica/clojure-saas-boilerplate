@@ -1,5 +1,9 @@
 {:saas/secrets #include #join [#env HOME "/.saas-secrets.edn"]
  :webserver/port #or [#env PORT 8080]
+ :saas/telegram-webhook {:app #ig/ref :server/jetty
+                         :env #ig/ref :saas/environment
+                         :telegram #ig/ref :telegram/instance
+                         :telegram-config #ref [:saas/secrets :telegram]}
  :server/jetty {:port #ig/ref :webserver/port
                 :handler #ig/ref :saas/handler}
  :saas/handler {:auth #ig/ref :auth/cognito
@@ -7,13 +11,18 @@
                 :migrator #ig/ref :saas/migrator
                 :openai #ig/ref :saas/openai
                 :telegram #ig/ref :saas/telegram}
+ :saas/telegram {:instance #ig/ref :telegram/instance
+                 :channel #ig/ref :telegram/channel}
  :auth/cognito #ref [:saas/secrets :cognito]
  :saas/openai #ref [:saas/secrets :openai]
- :saas/telegram #ref [:saas/secrets :telegram]
- :saas/telegram-webhook {:env #ig/ref :saas/environment
-                         :telegram #ig/ref :saas/telegram
-                         :telegram-config #ref [:saas/secrets :telegram]}
- :saas/environment :development
+ :telegram/instance #ref [:saas/secrets :telegram]
+ :telegram/channel {:telegram #ig/ref :telegram/instance
+                    :telegram-config #ref [:saas/secrets :telegram]}
+ :telegram/threads {:telegram-channel #ig/ref :telegram/channel
+                    :db #ig/ref :saas/db
+                    :telegram #ig/ref :telegram/instance}
+ ;:saas/environment :development
+ :saas/environment :production
  :saas/migrator {:db #ig/ref :saas/db
                  :store :database
                  :migration-dir "migrations/"

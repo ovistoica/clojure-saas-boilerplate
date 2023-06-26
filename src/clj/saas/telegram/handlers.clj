@@ -1,6 +1,8 @@
 (ns saas.telegram.handlers
-  (:require [integrant.repl.state :as state]
+  (:require [integrant.core :as ig]
+            [integrant.repl.state :as state]
             [clojure.edn :as edn]
+            [clojure.core.async :refer [chan <! go thread close! go-loop >!]]
             [saas.telegram.api.methods :as tbot]
             [saas.telegram.api.updates :as tbu]
             [clojure.tools.logging :as log]
@@ -62,8 +64,7 @@ What did you have for your last meal?")
         calorie-log (prompt->calorie-input
                      (assoc macros :text text :user-id user-id :date date))]
     (db/insert-calorie-log! db calorie-log)
-    (tbot/send-message telegram {:chat_id chat-id :text response})
-    {:body "ok", :status 200}))
+    (tbot/send-message telegram {:chat_id chat-id :text response})))
 
 (defn bot-command
   [message]
@@ -74,9 +75,13 @@ What did you have for your last meal?")
                                    first)]
       (subs text (:offset command-entity) (:length command-entity)))))
 
+(defn group-chat?
+  [message]
+  (-> message :chat :type (= "group")))
+
 (defn user
-  [{:keys [from chat]}]
-  (-> (merge from chat)
+  [{:keys [from chat] :as message}]
+  (-> (if (group-chat? message) from (merge from chat))
       (select-keys
        [:id
         :is_bot
@@ -112,147 +117,77 @@ What did you have for your last meal?")
         response (openai-response (:openai config) prompt)]
     response))
 
-(defn group-chat?
-  [message]
-  (-> message :chat :type (= "group")))
 
+(defn handle-telegram-message
+  [{:keys [db telegram] :as config} message]
+  (let [user (user message)
+        chat-id (-> message :chat :id)
+        text (-> message :text)
+        date (-> message :date)
+        bot-command (bot-command message)]
+    (when-not (db/get-telegram-user db (:id user))
+      (db/insert-telegram-user! db user))
+    (cond
+      (= bot-command "/start") (tbot/send-message
+                                telegram
+                                {:chat_id chat-id
+                                 :text initial-response})
+      (= bot-command "/recommend") (tbot/send-message
+                                    telegram
+                                    {:chat_id chat-id
+                                     :text (recommend-food (:id user) config)})
+      (= bot-command "/today") (tbot/send-message
+                                telegram
+                                {:chat_id chat-id
+                                 :text (-> (total-calories-for-today db (:id user))
+                                           (macros->resp))})
+      :else (handle-calorie-message
+             {:chat-id chat-id
+              :text text
+              :date date
+              :user-id (:id user)}
+             config))))
+
+(defn respond-ok
+  []
+  {:body "ok", :status 200})
 
 (defn telegram-webhook-handler
   [{:keys [db] :as config}]
   (fn [req]
     (log/info "Telegram Webhook Request Body: " (-> req :parameters :body))
-    (let [message (-> req :parameters :body :message)
-          chat-id (-> message :chat :id)
-          text (-> message :text)
-          date (-> message :date)
-          bot-command (bot-command message)
-          user (user message)]
+    (let [message (-> req :parameters :body :message)]
       (if (or (group-chat? message) (nil? message))
-        {:body "ok", :status 200}
-        (do
-          (when-not (db/get-telegram-user db (:id user))
-            (db/insert-telegram-user! db user))
-          (cond
-            (= bot-command "/start")
-            (do
-              (tbot/send-message
-               (:telegram config)
-               {:chat_id chat-id :text initial-response})
-              {:body "ok", :status 200})
-            (= bot-command "/recommend")
-            (do
-              (tbot/send-message
-               (:telegram config)
-               {:chat_id chat-id
-                :text (recommend-food (:id user) config)})
-              {:body "ok", :status 200})
-            (= bot-command "/today")
-            (let [totals (total-calories-for-today db (:id user))]
-              (tbot/send-message (:telegram config)
-                                 {:chat_id chat-id
-                                  :text (macros->resp totals)})
-              {:body "ok", :status 200})
-            :else
-            (handle-calorie-message
-             {:chat-id chat-id
-              :text text
-              :date date
-              :user-id (:id user)}
-             config)))))))
-(comment
- (def req {:parameters {:body {:message {:chat {:first_name "Ovidiu",
-                                                :id 1641544258,
-                                                :last_name "Stoica",
-                                                :type "private",
-                                                :username "ovistoica"},
-                                         :date 1685769972,
-                                         :from {:first_name "Ovidiu",
-                                                :id 1641544258,
-                                                :is_bot false,
-                                                :language_code "en",
-                                                :last_name "Stoica",
-                                                :username "ovistoica"},
-                                         :message_id 315,
-                                         :text "test"},
-                               :update_id 714250907}}})
-
- (def req-start {:parameters {:body {:message {:chat {:first_name "Ovidiu",
-                                                      :id 1641544258,
-                                                      :last_name "Stoica",
-                                                      :type "private",
-                                                      :username "ovistoica"},
-                                               :date 1685770046,
-                                               :entities [{:length 6,
-                                                           :offset 0,
-                                                           :type "bot_command"}],
-                                               :from {:first_name "Ovidiu",
-                                                      :id 1641544258,
-                                                      :is_bot false,
-                                                      :language_code "en",
-                                                      :last_name "Stoica",
-                                                      :username "ovistoica"},
-                                               :message_id 317,
-                                               :text "/start"},
-                                     :update_id 714250908}}})
-
- (bot-command (-> req-start :parameters :body :message))
- (user (-> req-start :parameters :body :message))
-
- )
-
-(def group-message-command
-  {:update_id 714251045,
-   :message
-   {:date 1686070009,
-    :entities [{:offset 0, :type "bot_command", :length 19}],
-    :chat {:type "group", :title "SnackTalkGroup", :id -961822110},
-    :message_id 582,
-    :from
-    {:first_name "Ovidiu",
-     :language_code "en",
-     :is_bot false,
-     :username "ovistoica",
-     :id 1641544258,
-     :last_name "Stoica"},
-    :text "/start@NutriInfoBot"}})
-
-(def group-message
-  {:update_id 714251044,
-   :message
-   {:date 1686069970,
-    :entities [{:offset 0, :type "mention", :length 13}],
-    :chat {:type "group", :title "SnackTalkGroup", :id -961822110},
-    :message_id 581,
-    :from
-    {:first_name "Ovidiu",
-     :language_code "en",
-     :is_bot false,
-     :username "ovistoica",
-     :id 1641544258,
-     :last_name "Stoica"},
-    :text "@NutriInfoBot a pastrami sandwitch with cheese"}})
+        (respond-ok)
+        (go (>!  )
+            (respond-ok))))))
 
 
-(def normal-message
-  {:update_id 714251043,
-   :message
-   {:date 1686069476,
-    :chat
-    {:first_name "Ovidiu",
-     :username "ovistoica",
-     :type "private",
-     :id 1641544258,
-     :last_name "Stoica"},
-    :message_id 579,
-    :from
-    {:first_name "Ovidiu",
-     :language_code "en",
-     :is_bot false,
-     :username "ovistoica",
-     :id 1641544258,
-     :last_name "Stoica"},
-    :text "a pastrami sandwich with cheese"}})
+;; This is the channel where the telegram
+;; webhook puts messages, and the telegram handler
+;; takes them from in order to respond to clients
+(defmethod ig/init-key :telegram/channel
+  [_ _]
+  (chan 1024))
 
+
+(defmethod ig/init-key :telegram/threads
+  [_ {:keys [telegram-channel] :as config}]
+  ;; Threads that handle telegram messages
+  (for [_ (range 8)]
+    (go-loop []
+      (when-some [message (<! telegram-channel)]
+        (<! (thread (handle-telegram-message config message)))
+        (recur)))))
+
+(defmethod ig/halt-key! :telegram/channel
+  [_ chan]
+  (close! chan))
+
+(defmethod ig/halt-key! :telegram/threads
+  [_ thread-chans]
+  (doseq [c (or thread-chans [])]
+    (close! c)))
 
 
 (comment
@@ -270,6 +205,5 @@ What did you have for your last meal?")
                :content
                (prompts/new-calorie-prompt "1 medium pepperoni pizza")
                }]})
-
  (tbu/get-updates (telegram))
  (tbu/set-webhook (telegram) ""))

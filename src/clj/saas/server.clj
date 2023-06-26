@@ -33,7 +33,7 @@
 
 (defmethod ig/init-key :saas/handler
   [_ config]
-  (println "Started app \n")
+  (println "Started app \n" config)
   (app config))
 
 (defmethod ig/init-key :saas/environment
