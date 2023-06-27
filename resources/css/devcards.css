@@ -1,5 +1,5 @@
 body .hljs {
-  @apply p-0 bg-transparent;
+  @apply bg-transparent p-0;
 }
 
 #com-rigsomelight-devcards-main {
@@ -18,7 +18,7 @@ body .hljs {
 .com-rigsomelight-devcards-test-line.com-rigsomelight-devcards-test-doc,
 .com-rigsomelight-devcards-markdown,
 pre {
-  @apply block text-xs break-normal overflow-x-scroll bg-slate-50 -ml-3 -mr-3;
+  @apply -ml-3 -mr-3 block overflow-x-scroll break-normal bg-slate-50 text-xs;
 }
 
 .com-rigsomelight-devcards-test-line.com-rigsomelight-devcards-test-doc,
@@ -29,7 +29,7 @@ pre {
 
 /* frameless style for markdown */
 .com-rigsomelight-devcards-framelesss .com-rigsomelight-devcards-markdown {
-  @apply pt-4 px-4;
+  @apply px-4 pt-4;
 }
 
 /* end fremless markdown style */
@@ -39,11 +39,11 @@ pre {
 }
 
 .com-rigsomelight-devcards-markdown code {
-  @apply text-pink-800 bg-slate-50 whitespace-nowrap rounded py-2 px-4;
+  @apply whitespace-nowrap rounded bg-slate-50 py-2 px-4 text-pink-800;
 }
 
 .com-rigsomelight-devcards-markdown pre code {
-  @apply p-0 whitespace-pre bg-transparent rounded-none;
+  @apply whitespace-pre rounded-none bg-transparent p-0;
 }
 
 .com-rigsomelight-devcards-base,
@@ -105,11 +105,11 @@ pre {
 }
 
 .com-rigsomelight-devcards-navbar {
-  @apply bg-indigo-800 border-blue-800 text-white h-12;
+  @apply h-12 border-blue-800 bg-indigo-800 text-white;
 }
 
 .com-rigsomelight-devcards-brand {
-  @apply text-lg block ml-3 leading-10;
+  @apply ml-3 block text-lg leading-10;
 }
 
 .com-rigsomelight-devcards-container {
@@ -117,11 +117,11 @@ pre {
 }
 
 .com-rigsomelight-devcards-card-base {
-  @apply bg-white py-4 px-4 mt-10;
+  @apply mt-10 bg-white py-4 px-4;
 }
 
 .com-rigsomelight-devcards-card-base-no-pad {
-  @apply bg-white border-1 mt-5 border-x-0;
+  @apply mt-5 border-1 border-x-0 bg-white;
 }
 
 .com-rigsomelight-devcards-card-base-no-pad.com-rigsomelight-devcards-card-hide-border {
@@ -129,7 +129,7 @@ pre {
 }
 
 .com-rigsomelight-devcards-breadcrumbs {
-  @apply leading-6 border-none;
+  @apply border-none leading-6;
 }
 
 .com-rigsomelight-devcards-breadcrumb-sep {
@@ -141,11 +141,11 @@ pre {
 }
 
 .com-rigsomelight-devcards-list-group-item {
-  @apply relative text-gray-600 block py-4 px-5 -mb-0.5 border-b-2 border-b-sky-100;
+  @apply relative -mb-0.5 block border-b-2 border-b-sky-100 py-4 px-5 text-gray-600;
 }
 
 .com-rigsomelight-devcards-badge {
-  @apply inline-block text-xs font-bold text-white leading-none align-baseline whitespace-nowrap text-center min-w-1 bg-slate-400;
+  @apply inline-block min-w-1 whitespace-nowrap bg-slate-400 text-center align-baseline text-xs font-bold leading-none text-white;
 }
 
 button.com-rigsomelight-devcards-badge {
@@ -153,11 +153,11 @@ button.com-rigsomelight-devcards-badge {
 }
 
 .com-rigsomelight-devcards-panel-heading {
-  @apply bg-brand-700 overflow-hidden h-12 flex items-center;
+  @apply flex h-12 items-center overflow-hidden bg-cyan-700;
 }
 
 .com-rigsomelight-devcards-panel-heading a {
-  @apply text-slate-100 text-xl pl-4;
+  @apply pl-4 text-xl text-slate-100;
 }
 
 .com-rigsomelight-devcards-devcard-padding {
@@ -165,7 +165,7 @@ button.com-rigsomelight-devcards-badge {
 }
 
 .com-rigsomelight-devcards-test-line {
-  @apply relative block pt-3 px-4 border-none border-t-2 border-t-slate-300;
+  @apply relative block border-t-2 border-none border-t-slate-300 px-4 pt-3;
 }
 
 .com-rigsomelight-devcards-test-line.com-rigsomelight-devcards-context {
@@ -177,16 +177,16 @@ button.com-rigsomelight-devcards-badge {
 }
 
 .com-rigsomelight-devcards-test-line pre code {
-  @apply text-lg p-0 bg-transparent;
+  @apply bg-transparent p-0 text-lg;
 }
 
 .com-rigsomelight-devcards-pass {
-  @apply text-green-600 border-1 border-green-300 border-l-8;
+  @apply border-1 border-l-8 border-green-300 text-green-600;
 }
 
 .com-rigsomelight-devcards-fail,
 .com-rigsomelight-devcards-error {
-  @apply text-red-700 border-1 border-l-red-300;
+  @apply border-1 border-l-red-300 text-red-700;
 }
 
 .com-rigsomelight-devcards-fail {
@@ -198,7 +198,7 @@ button.com-rigsomelight-devcards-badge {
 }
 
 .com-rigsomelight-devcards-test-message {
-  @apply block my-1;
+  @apply my-1 block;
 }
 
 .com-rigsomelight-devcards-pass .com-rigsomelight-devcards-test-message {
@@ -210,7 +210,7 @@ button.com-rigsomelight-devcards-badge {
 }
 
 .com-rigsomelight-devcards-history-control-small-arrow {
-  @apply inline-block h-0 w-0 border-8 border-l-slate-700 -mr-3;
+  @apply -mr-3 inline-block h-0 w-0 border-8 border-l-slate-700;
 }
 
 .com-rigsomelight-devcards-history-control-block {
@@ -218,23 +218,23 @@ button.com-rigsomelight-devcards-badge {
 }
 
 .com-rigsomelight-devcards-history-control-right {
-  @apply inline-block h-0 w-0 border-8 border-l-16 border-l-slate-500 -mr-3;
+  @apply -mr-3 inline-block h-0 w-0 border-8 border-l-16 border-l-slate-500;
 }
 
 .com-rigsomelight-devcards-history-control-left {
-  @apply inline-block h-0 w-0 border-8 border-r-16 border-r-slate-500 -ml-3;
+  @apply -ml-3 inline-block h-0 w-0 border-8 border-r-16 border-r-slate-500;
 }
 
 .com-rigsomelight-devcards-history-stop {
-  @apply inline-block h-4 w-4 bg-red-300 rounded;
+  @apply inline-block h-4 w-4 rounded bg-red-300;
 }
 
 .com-rigsomelight-devcards-history-control-bar {
-  @apply bg-slate-50 py-1 my-4 mx-0 px-4 text-right;
+  @apply my-4 mx-0 bg-slate-50 py-1 px-4 text-right;
 }
 
 .com-rigsomelight-devcards-history-control-bar button {
-  @apply bg-transparent border-none my-0 mx-1 h-5 py-1 px-7;
+  @apply my-0 mx-1 h-5 border-none bg-transparent py-1 px-7;
 }
 
 .com-rigsomelight-devcards-history-control-bar,
@@ -252,7 +252,7 @@ button.com-rigsomelight-devcards-badge {
   .com-rigsomelight-devcards-test-line.com-rigsomelight-devcards-test-doc,
   .com-rigsomelight-devcards-markdown,
   pre {
-    @apply py-2 px-8 -mx-8;
+    @apply -mx-8 py-2 px-8;
   }
 
   .com-rigsomelight-devcards-brand {
@@ -294,7 +294,7 @@ button.com-rigsomelight-devcards-badge {
 
   .com-rigsomelight-devcards-card-base,
   .com-rigsomelight-devcards-card-base-no-pad {
-    @apply rounded border-1 border-slate-100 overflow-hidden;
+    @apply overflow-hidden rounded border-1 border-slate-100;
   }
 
   .com-rigsomelight-devcards-test-line {
@@ -318,7 +318,7 @@ button.com-rigsomelight-devcards-badge {
   .com-rigsomelight-devcards-card-hide-border,
   .com-rigsomelight-devcards-markdown,
   pre {
-    @apply border-1 border-slate-100 rounded px-4 mx-0;
+    @apply mx-0 rounded border-1 border-slate-100 px-4;
   }
 }
 

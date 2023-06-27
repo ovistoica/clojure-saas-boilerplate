@@ -1,6 +1,7 @@
 (ns saas.ui.util
   (:require [clojure.string :as string]
-            [reagent.core :as r]))
+            [reagent.core :as r]
+            ["tailwind-merge" :refer [twMerge]]))
 
 (defn props? [x]
   (map? x))
@@ -16,8 +17,16 @@
        (distinct)
        (string/join " ")))
 
+(defn tw
+  [& input]
+  (-> input
+      (clsx)
+      (twMerge)))
+
 (comment
  (clsx "hello" "world" "world hello" " yagg ")
+
+ (tw "px-2 py-1 bg-red hover:bg-dark-red", "p-3 bg-[#B91C1C]")
  )
 
 (defn render-children

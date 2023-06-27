@@ -62,3 +62,95 @@ Fat: 58.5g")
 
  )
 
+
+
+(comment
+ (def req {:parameters {:body {:message {:chat {:first_name "Ovidiu",
+                                                :id 1641544258,
+                                                :last_name "Stoica",
+                                                :type "private",
+                                                :username "ovistoica"},
+                                         :date 1685769972,
+                                         :from {:first_name "Ovidiu",
+                                                :id 1641544258,
+                                                :is_bot false,
+                                                :language_code "en",
+                                                :last_name "Stoica",
+                                                :username "ovistoica"},
+                                         :message_id 315,
+                                         :text "test"},
+                               :update_id 714250907}}})
+
+ (def req-start {:parameters {:body {:message {:chat {:first_name "Ovidiu",
+                                                      :id 1641544258,
+                                                      :last_name "Stoica",
+                                                      :type "private",
+                                                      :username "ovistoica"},
+                                               :date 1685770046,
+                                               :entities [{:length 6,
+                                                           :offset 0,
+                                                           :type "bot_command"}],
+                                               :from {:first_name "Ovidiu",
+                                                      :id 1641544258,
+                                                      :is_bot false,
+                                                      :language_code "en",
+                                                      :last_name "Stoica",
+                                                      :username "ovistoica"},
+                                               :message_id 317,
+                                               :text "/start"},
+                                     :update_id 714250908}}})
+
+ (def group-message-command
+   {:update_id 714251045,
+    :message
+    {:date 1686070009,
+     :entities [{:offset 0, :type "bot_command", :length 19}],
+     :chat {:type "group", :title "SnackTalkGroup", :id -961822110},
+     :message_id 582,
+     :from
+     {:first_name "Ovidiu",
+      :language_code "en",
+      :is_bot false,
+      :username "ovistoica",
+      :id 1641544258,
+      :last_name "Stoica"},
+     :text "/start@NutriInfoBot"}})
+
+ (def group-message
+   {:update_id 714251044,
+    :message
+    {:date 1686069970,
+     :entities [{:offset 0, :type "mention", :length 13}],
+     :chat {:type "group", :title "SnackTalkGroup", :id -961822110},
+     :message_id 581,
+     :from
+     {:first_name "Ovidiu",
+      :language_code "en",
+      :is_bot false,
+      :username "ovistoica",
+      :id 1641544258,
+      :last_name "Stoica"},
+     :text "@NutriInfoBot a pastrami sandwitch with cheese"}})
+
+
+ (def normal-message
+   {:update_id 714251043,
+    :message
+    {:date 1686069476,
+     :chat
+     {:first_name "Ovidiu",
+      :username "ovistoica",
+      :type "private",
+      :id 1641544258,
+      :last_name "Stoica"},
+     :message_id 579,
+     :from
+     {:first_name "Ovidiu",
+      :language_code "en",
+      :is_bot false,
+      :username "ovistoica",
+      :id 1641544258,
+      :last_name "Stoica"},
+     :text "a pastrami sandwich with cheese"}})
+
+ )
