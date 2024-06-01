@@ -1,5 +1,7 @@
 # Clojure SaaS Boilerplate
 
+> ⭐ Check out the premium version over at [shipclojure.com](https://shipclojure.com) ⭐
+
 This is a boilerplate for Clojure SaaS applications. It is based on:
 
 - [Integrant](https://github.com/weavejester/integrant) - System dependency management
